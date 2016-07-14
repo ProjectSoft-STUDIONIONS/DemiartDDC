@@ -449,11 +449,11 @@
 							}
 						}
 						if(!ta){
-							chrome.tabs.create({'url': options.protocolForum + protocol.urlForum, 'active':true}, tabCreate);
+							chrome.tabs.create({'url': options.protocolForum + options.urlForum, 'active':true}, tabCreate);
 						}
 					})
 				}else{
-					chrome.tabs.create({'url': options.protocolForum + protocol.urlForum, 'active':true}, tabCreate);
+					chrome.tabs.create({'url': options.protocolForum + options.urlForum, 'active':true}, tabCreate);
 				}
 				break;
 		}

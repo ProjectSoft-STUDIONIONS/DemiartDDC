@@ -13,4 +13,4 @@
 
 ## Авторы
 - Оригинальная идея и разработка расширения до версии 3.2 - [asg-3d](https://github.com/asg-3d)
-- Дальнейшая разработка и поддержка - [ProjectSoft-STUDIONIONS](https://demiart.ru/forum/index.php?showuser=1393929)
+- Дальнейшая разработка и поддержка - [ProjectSoft](https://github.com/ProjectSoft-STUDIONIONS/) [ProjectSoft на Demiart](https://demiart.ru/forum/index.php?showuser=1393929)
