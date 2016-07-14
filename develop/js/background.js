@@ -348,16 +348,16 @@
 				options.refreshDate = parseInt(resHeader.split(' ')[3]);
 				if (discussCount) {
 					chrome.browserAction.getBadgeText({}, function(result) {
-						result = parseInt(result);
+						result = parseInt(result) || 0;
 						if (result < discussCount && options.audioOn){
 							audio.src = options.refreshSoundFile;
-							audio.volume = options.volumeSound;
+							audio.volume = options.sounVolume;
 							audio.play();
 						}
 					});
-					var comments = lang.get("comments").replace(/\*ddc\*/, discussCount);
-					var commentsmenu = lang.get("commentsmenu").replace(/\*ddc\*/, discussCount);
-					chrome.browserAction.setBadgeText({text: discussCount});
+					var comments = lang.get("comments").replace(/\*ddc\*/, String(discussCount));
+					var commentsmenu = lang.get("commentsmenu").replace(/\*ddc\*/, String(discussCount));
+					chrome.browserAction.setBadgeText({text: String(discussCount)});
 					chrome.browserAction.setTitle({'title':  comments});
 					chrome.contextMenus.update(ddcGoDemiItemMenu, {"title": commentsmenu});
 					
@@ -376,7 +376,7 @@
 							req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
 						if(req.test(tabs[i].url)){
 							++dc;
-							chrome.tabs.sendMessage(lt,{ddc:dcc_c,url:dcc_u,def:localStorage['url_forum'],message:'ddc'});
+							chrome.tabs.sendMessage(lt,{ddc:dcc_c, url:dcc_u, def:options.urlForum, message:'ddc'});
 							if(localStorage['favicon']=="true"){
 								var datauri = drawFavicon(dcc_c);
 								chrome.tabs.sendMessage(lt,{'data':datauri, message:'favicon'});

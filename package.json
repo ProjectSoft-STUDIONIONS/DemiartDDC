@@ -1,6 +1,6 @@
 {
 	"name": "DemiartDDC",
-	"version": "6.0.0",
+	"version": "6.0.2",
 	"description": "DemiartDiscussionCount (DDC) расширение для мгновенного оповещения о новых комментариях на Демиарт-форуме. http://demiart.ru/forum/index.php?showtopic=231647",
 	"main": "package.json",
 	"scripts": {
