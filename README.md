@@ -9,7 +9,6 @@
 Версии для других браузеров:
 - для Crome Browser и Yandex Browser - [Интернет-магазин Chrome](https://chrome.google.com/webstore/detail/demiart-discussion-count/jpbpbenadfnimgnmgipcbbplldlalohm?hl=ru)
 - для Opera Browser - [Дополнения Opera](https://addons.opera.com/ru/extensions/details/demiart-discussion-count-ddc/)
-- для Mozila Firefox - [Mozilla Add-ons](https://addons.mozilla.org/ru/firefox/addon/demiart-discussion-count-ddc/versions/)
 
 ## Авторы
 - Оригинальная идея и разработка расширения до версии 3.2 - [asg-3d](https://github.com/asg-3d)

@@ -32,6 +32,26 @@
 		};
 	document.addEventListener("DOMContentLoaded", function() {
 		document.title = j;
+		document.getElementById("settingtitle01").innerHTML = lang.get("settingtitle01");
+		document.getElementById("settingtitle02").innerHTML = lang.get("settingtitle02");
+		document.getElementById("settingtitle02_1").innerHTML = lang.get("settingtitle02_1");
+		document.getElementById("settingtitle02_2").innerHTML = lang.get("settingtitle02_2");
+		document.getElementById("settingtitle02_3").innerHTML = lang.get("settingtitle02_3");
+		document.getElementById("settingtitle02_4").innerHTML = lang.get("settingtitle02_4");
+		document.getElementById("settingtitle02_5").innerHTML = lang.get("settingtitle02_5");
+		document.getElementById("settingtitle02_6").innerHTML = lang.get("settingtitle02_6");
+		document.getElementById("settingtitle02_7").innerHTML = lang.get("settingtitle02_7");
+		document.getElementById("settingtitle02_8").innerHTML = lang.get("settingtitle02_8");
+		document.getElementById("settingtitle03").innerHTML = lang.get("settingtitle03");
+		document.getElementById("settingtitle04").innerHTML = lang.get("settingtitle04");
+		document.getElementById("settingtitle05").innerHTML = lang.get("settingtitle05");
+		document.getElementById("settingtitle06").innerHTML = lang.get("settingtitle06");
+		document.getElementById("settingtitle07").innerHTML = lang.get("settingtitle07");
+		document.getElementById("settingtitle08").innerHTML = lang.get("settingtitle08");
+		document.getElementById("settingtitle09").innerHTML = lang.get("settingtitle09");
+		document.getElementById("save").innerHTML = lang.get("settingtitle10");
+		document.getElementById("settingtitle11").innerHTML = lang.get("settingtitle11");
+		document.getElementById("closed").innerHTML = lang.get("closed");
 		var q = function (a) {
 				a ? c.paused ? (c.volume = n.value, c.pause(), c.src = k.value, l.className = "forminput play", c.play()) : (c.pause(), c.currentTime = 0, l.className = "forminput stop") : (c.volume = n.value, c.pause(), c.src = k.value, l.className = "forminput play", c.play());
 			},

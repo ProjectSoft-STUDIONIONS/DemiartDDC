@@ -140,6 +140,30 @@
 	"settingtitle02" : {
 		"message" : "Проверять новые комментарии:"
 	},
+	"settingtitle02_1" : {
+		"message" : "0 (не проверять)"
+	},
+	"settingtitle02_2" : {
+		"message" : "1 раз в 10 сек"
+	},
+	"settingtitle02_3" : {
+		"message" : "1 раз в 30 сек"
+	},
+	"settingtitle02_4" : {
+		"message" : "1 раз в минуту"
+	},
+	"settingtitle02_5" : {
+		"message" : "1 раз в 5 минут"
+	},
+	"settingtitle02_6" : {
+		"message" : "1 раз в 30 минут"
+	},
+	"settingtitle02_7" : {
+		"message" : "1 раз в час"
+	},
+	"settingtitle02_8" : {
+		"message" : "1 раз в сутки"
+	},
 	"settingtitle03" : {
 		"message" : "Звуковое оповещение при новом комментарии:"
 	},
@@ -163,5 +187,12 @@
 	},
 	"settingtitle10" : {
 		"message" : "Сохранить настройки"
+	},
+	"settingtitle11" : {
+		"message" : "Спасибо, Ваши настройки сохранены.<br><br>Подождите, сейчас окно настроек будет закрыто..."
+	},
+	"closed" : {
+		"message" : "Или нажмите сюда, если не хотите ждать"
 	}
+	
 }
