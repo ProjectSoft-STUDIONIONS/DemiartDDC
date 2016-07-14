@@ -344,9 +344,11 @@ module.exports = function(grunt) {
 					"bower.json",
 					"favicon.ico",
 					"gruntfile.js",
+					"<%= globalConfig.locales %>/**",
+					"<%= globalConfig.assets %>/**",
 					"<%= globalConfig.dev %>/**/*"
 				],
-				dest : "develop_<%= pkg.name %>_v<%= pkg.version %>.zip"
+				dest : "<%= pkg.name %>_v<%= pkg.version %>.zip"
 			}
 		}
 	});
