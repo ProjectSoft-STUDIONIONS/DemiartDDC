@@ -35,19 +35,11 @@
 				obddc.def = msg.def;
 				obddc.ddc = msg.ddc;
 				if(obddc.ddc){
-					if(adiscuss2){
-						adiscuss2.innerHTML = insetrLink(obddc);
-					}
-					if(adiscuss){
-						adiscuss.innerHTML = insetrLink(obddc);
-					}
+					adiscuss2 && (adiscuss2.innerHTML = insetrLink(obddc));
+					adiscuss && (adiscuss.innerHTML = insetrLink(obddc));
 				}else{
-					if(adiscuss2){
-						adiscuss2.innerHTML = "";
-					}
-					if(adiscuss){
-						adiscuss.innerHTML = "";
-					}
+					adiscuss2 && (adiscuss2.innerHTML = '');
+					adiscuss && (adiscuss.innerHTML = '');
 				}
 			}else if(msg.message=='favicon'){
 				setFaviconTag(msg.data);
