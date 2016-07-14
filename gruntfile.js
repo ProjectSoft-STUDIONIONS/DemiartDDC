@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 		bp		:	'bower_components',
 		css		:	'css',
 		img		:	'images',
+		sound	:	'sound',
 		font	:	'fonts',
 		js		:	'js',
 		locales	: 	'_locales',
@@ -65,6 +66,17 @@ module.exports = function(grunt) {
 						"<%= globalConfig.assets %>/<%= globalConfig.img %>/icon70.png"				:	"<%= globalConfig.dev %>/<%= globalConfig.img %>/min/icon70.png",
 						"<%= globalConfig.assets %>/<%= globalConfig.img %>/icon100.png"				:	"<%= globalConfig.dev %>/<%= globalConfig.img %>/min/icon100.png",
 						"<%= globalConfig.assets %>/<%= globalConfig.img %>/icon128.png"			:	"<%= globalConfig.dev %>/<%= globalConfig.img %>/min/icon128.png",
+					}
+				]
+			},
+			sound: {
+				files: [
+					{
+						expand: true,
+						flatten : true,
+						src: ['<%= globalConfig.dev %>/<%= globalConfig.sound %>/*.ogg'],
+						dest: '<%= globalConfig.assets %>/<%= globalConfig.sound %>/',
+						filter : 'isFile'
 					}
 				]
 			}
