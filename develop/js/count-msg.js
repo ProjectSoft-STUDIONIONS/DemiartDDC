@@ -28,25 +28,13 @@
 			document.getElementsByTagName('head')[0].appendChild(link);
 		};
 		chrome.runtime.onMessage.addListener(function(msg, ob, sendResponse) {
-			var s = document.getElementById('scrolldiscuss'),
-				su = document.getElementById('scrollup'),
-				adiscuss2 = document.getElementById('adiscuss2'),
+			var adiscuss2 = document.getElementById('adiscuss2'),
 				adiscuss = document.getElementById('adiscuss');
 			if(msg.message == 'ddc'){
 				obddc.url = msg.url;
 				obddc.def = msg.def;
 				obddc.ddc = msg.ddc;
 				if(obddc.ddc){
-					if(s){
-						s.innerHTML = insetrLink(obddc);
-					}else{
-						if(su){
-							s = document.createElement('div');
-							s.id = 'scrolldiscuss';
-							su.parentNode.insertBefore(s,su);
-							s.innerHTML = insetrLink(obddc);
-						}
-					}
 					if(adiscuss2){
 						adiscuss2.innerHTML = insetrLink(obddc);
 					}
@@ -54,8 +42,11 @@
 						adiscuss.innerHTML = insetrLink(obddc);
 					}
 				}else{
-					if(s){
-						s.parentNode.removeChild(s);
+					if(adiscuss2){
+						adiscuss2.innerHTML = "";
+					}
+					if(adiscuss){
+						adiscuss.innerHTML = "";
 					}
 				}
 			}else if(msg.message=='favicon'){
