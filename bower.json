@@ -1,0 +1,25 @@
+{
+  "name": "DemiartDDC",
+  "description": "DDC",
+  "main": "package.json",
+  "authors": [
+    "ProjectSoft"
+  ],
+  "license": "ISC",
+  "homepage": "https://demiart.ru/forum/index.php?showtopic=231647",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.12.4",
+    "codemirror": "*",
+    "prettify": "*",
+    "code-prettify": "*"
+  },
+  "devDependencies": {}
+}
