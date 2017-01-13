@@ -9,16 +9,41 @@
 		autor: 		'ProjectSoft'
 	},
 	protocolLoc = window.location.protocol.replace(/:/gi, ""),
-	//[url=" + protocolLoc + "://demiart.ru/forum/index.php?showtopic=231647&view=getlastpost]DDC 4.5[/url] [color=#E7AA11]&[/color] 
 	$link 	= '\n[right][url=http://demicolor.demiart.ru/]DemiColor '+demiColor.version+'[/url][/right]\n',
-	$enc 	= $(document.createElement('div')),
 	index = 0;
 	$('#titleVersion').text(demiColor.version);
 	$.fn.demiColor = function(options){
+		var sheet = window.styleSheetWriter;
+		sheet.getSheet();
 		var defaults = {
 			schemes : {
-				'default':		{'str': '#FA0','kwd': '#9E9','com': '#008','lit': '#FF0','pun': '#CCC','pln': '#CCC','tag': '#ADE','atn': '#ADE','atv': '#FF0','dec': '#CCC','typ': '#FA0'},
-				'as':			{'str': "#FA0",'kwd': "#9E9",'com': "#008",'lit': "#FF0",'pun': "#CCC",'pln': "#CCC",'tag': "#ADE",'atn': "#ADE",'atv': "#FF0",'dec': "#CCC",'typ': "#0FF",'fun': "#AF0"}
+				'default':		{
+					'str': '#FA0',
+					'kwd': '#9E9',
+					'com': '#008',
+					'lit': '#FF0',
+					'pun': '#CCC',
+					'pln': '#CCC',
+					'tag': '#ADE',
+					'atn': '#ADE',
+					'atv': '#FF0',
+					'dec': '#CCC',
+					'typ': '#FA0'
+				},
+				'as':			{
+					'str': "#FA0",
+					'kwd': "#9E9",
+					'com': "#008",
+					'lit': "#FF0",
+					'pun': "#CCC",
+					'pln': "#CCC",
+					'tag': "#ADE",
+					'atn': "#ADE",
+					'atv': "#FF0",
+					'dec': "#CCC",
+					'typ': "#0FF",
+					'fun': "#AF0"
+				}
 			},
 			langs 	: {
 				html: 			{title: 'HTML', 		scheme: 'default'},
@@ -33,60 +58,152 @@
 		},
 		o = $.extend({}, defaults, options || {}),
 		getItemsLang = function(lang){
-			var lan = '';
+			var wrapp = $("<div>",
+					{
+						class: "ddc-codes-wrapper"
+					}),
+				list = $("<ul>",
+					{
+						class: "ddc-code-langs"
+					}),
+				ins = $("<div>", {
+					class: "ddc-result-insert"
+				}).append(
+					$("<input>", {
+						class: "ddc-insert ddc-btn",
+						value: "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044c \u0432 \u043f\u043e\u0441\u0442",
+						type: "button",
+						disabled: "disabled"
+					})
+				),
+				calc = $("<div>", {
+					class: "ddc-result-calc",
+				}).append("\u0414\u043b\u0438\u043d\u0430: ").append(
+					$("<span>", {
+						text: "0"
+					})
+				).append(" \u0441\u0438\u043c\u0432.");
+					
 			for(var s in o.langs){
 				var active = s==lang ? ' active' : '';
-				lan += '<li class="ddc-item-lang'+active+'"><a class="ddc-lang'+active+'" href="#'+s+'" data-lang="'+s+'" data-scheme="'+o.langs[s]['scheme']+'">'+o.langs[s]['title']+'</a></li>';
+				list.append(
+					$("<li>", {
+						class: "ddc-item-lang"+active
+					}).append(
+						$("<a>", {
+							class: "ddc-lang"+active,
+							"data-lang": s,
+							"data-scheme": o.langs[s]['scheme'],
+							text: o.langs[s]['title']
+						})
+					)
+				);
 			};
-			return lan;
+			return wrapp.append(list).append($("<div>", {class: "ddc-clr"}));
+		},
+		getSourceWrapp = function(){
+			return $("<div>", {
+				class: "ddc-source-wrapper"
+			}).append($("<textarea>", {
+				class: "ddc-source"
+			}));
+		},
+		getResultWrapp = function(ind){
+			return $("<div>", {
+				class: "ddc-result-wrapper"
+			}).append(
+				$("<code>", {
+					id: "ddc-result-"+ind,
+					class: "ddc-result",
+					contenteditable: "false"
+				})
+			).append(
+				$("<div>", {
+					class: "wait"
+				})
+			);
+		},
+		getCodeWrapp = function(){
+			return $("<div>", {
+				class: "ddc-getcode-wrapper"
+			}).append(
+				$("<button>", {
+					class: "ddc-button-code ddc-btn",
+					text: "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u043a\u043e\u0434"
+				})
+			);
+		},
+		getPrevWrapp = function(lang){
+			return $("<div>", {
+				class: "ddc-preview-wrapper"
+			}).append(
+				$("<div>", {
+					class: "ddc-hide-code closed hide"
+				}).append(
+					$("<strong>").append(
+						$("<span>").append("[&nbsp;")
+					).append(
+						$("<span>", {
+							class: "ddc-wore-code",
+							text: "\u0440\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u044c"
+						})
+					).append(
+						$("<span>").append("&nbsp;]")
+					).append("&nbsp;")
+				)
+			).append(
+				//'<code calss="ddc-preview lang-"'+lang+' prettyprint>\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440</code>'
+				$('<code>', {
+					class: "ddc-preview prettyprint lang-"+lang,
+					text: "\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440"
+				})
+			);
+		},
+		getTemplate = function (pref, lng, ind){
+			var $ddcSelf = $("<div>", {
+				class: 'demiColor '+pref
+			}).append(
+				getItemsLang(lng)
+			).append(
+				getSourceWrapp()
+			).append(
+				getResultWrapp(ind)
+			).append(
+				$("<div>", {
+					class:"ddc-clr"
+				})
+			).append(
+				getCodeWrapp()
+			).append(
+				getPrevWrapp(lng)
+			);
+			return $ddcSelf;
 		},
 		getStyleShema = function(prefs,schemaName){
-			var syleText = '', scheme = o.schemes[schemaName];
+			var syleText = '',
+			scheme = o.schemes[schemaName];
+			window.styleSheetWriter.clear();
 			for(var s in scheme){
-				syleText += "."+prefs+" .ddc-preview span."+s+"{color: "+scheme[s]+";}\n";
+				window.styleSheetWriter.setRule("."+prefs+" .ddc-preview span."+s, "color", scheme[s]);
 			}
-			return syleText;
+			//return syleText;
 		};
 		
 		return $(this).each(function(){
 			++index;
+			
 			if($(this).data('demiColor')) return $(this);
 			var $codeLang = 'html',
 			rowsCount = 0,
 			ti = index,
 			$stylePrefs = 'ddc-style-'+index,
-			$self = $(this).data('demiCOlor', demiColor).html(
-'<div class="demiColor '+$stylePrefs+'">'+
-	'<div class="ddc-codes-wrapper">'+
-		'<ul class="ddc-code-langs">'+getItemsLang($codeLang)+
-		'</ul>'+
-		'<div class="ddc-result-insert"><input class="ddc-insert ddc-btn" value="\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044c \u0432 \u043f\u043e\u0441\u0442" type="button" disabled="disabled" /></div>'+
-		'<div class="ddc-result-calc">\u0414\u043b\u0438\u043d\u0430: <span>0</span> \u0441\u0438\u043c\u0432.</div>'+
-		'<div class="ddc-clr"></div>'+
-	'</div>'+
-	'<div class="ddc-source-wrapper">'+
-		'<textarea class="ddc-source"></textarea>'+
-	'</div>'+
-	'<div class="ddc-result-wrapper">'+
-		'<code id="ddc-result-'+ti+'" class="ddc-result" contenteditable="false"></code>'+
-		'<div class="wait"></div>'+
-	'</div>'+
-	'<div class="ddc-clr"></div>'+
-	'<div class="ddc-getcode-wrapper">'+
-		'<button class="ddc-button-code ddc-btn">\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u043a\u043e\u0434</button>'+
-	'</div>'+
-	'<div class="ddc-preview-wrapper">'+
-		'<div class="ddc-hide-code closed hide"><strong><span>[&nbsp;</span><span class="ddc-wore-code">\u0440\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u044c</span><span>&nbsp;]</span>&nbsp;</strong></div>'+
-		'<code class="ddc-preview lang-'+$codeLang+' prettyprint">\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440</code>'+
-	'</div>'+
-	'<style>'+getStyleShema($stylePrefs, o.langs[$codeLang]['scheme'])+'</style>'+
-'</div>'
+			$self = $(this).data('demiCOlor', demiColor).append(
+				getTemplate($stylePrefs, $codeLang, ti)
 			),
 			$source 	= $self.find('textarea.ddc-source'),
 			$result 	= $self.find('code.ddc-result'),
 			$wait 		= $self.find('div.wait'),
 			$preview 	= $self.find('code.ddc-preview'),
-			$style 		= $self.find('style'),
 			$codeLength = $self.find('.ddc-result-calc span'),
 			$insertBlock = $self.find('.ddc-result-insert'),
 			$insertPost = $self.find('input.ddc-insert'),
@@ -115,7 +232,7 @@
 							.replace(/[<>]/gmi, function (p){return (p == '<') ? '&lt;' : '&gt;'})
 							.replace(/\x0D/g, '<br />');
 							rowsCount = 0;
-							$preview.removeClass('prettyprinted').html(s);
+							$preview.removeClass('prettyprinted').empty().append(s);
 							prettyPrint();
 							var a = $preview.html().replace(/<span class="dec">?(.+?)<\/span>/gmi,function(g1,g2){return g2;})
 							.replace(/<span class="pln">?(.+?)<\/span>/gmi,function(g1,g2){return g2;})
@@ -128,7 +245,7 @@
 							$self.find('.ddc-hide-code').addClass((rowsCount>10) ? 'show' : 'hide');
 							a = "[quote=" + o.langs[$codeLang]['title'] + "]\n" + a + $link + "[/quote]";
 							rowsCount > o.maxRow && (a = "[color=yellow]\u041a\u043e\u0434 " +o. langs[$codeLang]['title'] + ":[/color][more]" + a + "[/more]");
-							$result.html(a);
+							$result.empty().append(a);
 							$codeLength.text($result.text().length);
 							var e = $result[0];
 							if(window.getSelection){
@@ -174,18 +291,17 @@
 				return!1;
 			},
 			$links = $self.find('li.ddc-item-lang a').click(function(){
-				var l 		= $codeLang;
+				var l = $codeLang;
 				$links.parent().removeClass('active');
 				$links.removeClass('active');
 				$(this).parent().addClass('active');
 				$codeLang 	= $(this).addClass('active').data('lang');
 				$preview.removeClass('lang-'+l).addClass('lang-'+$codeLang);
-				$style.remove();
-				$self.append('<style>'+getStyleShema($stylePrefs, $(this).data('scheme'))+'<style>');
-				$style 		= $self.find('style');
+				getStyleShema($stylePrefs, $(this).data('scheme'));
 				getCode();
 				return !1;
 			});
+			getStyleShema($stylePrefs, o.langs[$codeLang]['scheme']);
 			$self.bind('ddcfocus', function(){
 				$codemirror.doc.cm.focus();
 			});
@@ -203,13 +319,13 @@
 	var ddcwindow = "DemiColor"
 	if($(document).data('DemiColor') == ddcwindow) return;
 	$(document).data('DemiColor', ddcwindow);
-	var $getBtn = $('a[href="javascript:closeall();"], a[onclick="javascript:closeall();"]').length ?  $('a[href="javascript:closeall();"], a[onclick="javascript:closeall();"]') : $('input[value=CODE]'),
+	var $getBtn = $('.butmid input.codebuttons[name=MEDIA]') || $('.butmid input.codebuttons[name=CODE_]') || $('.butmid input.codebuttons[name=img]'),
 	btnDDC = '<span id="ddc-button-demicolor">&nbsp;<input type="button" value="'+ddcwindow+'" class="codebuttons '+ddcwindow+' recinput">&nbsp;&nbsp;</span>',
 	$postComment = ($('textarea[name=Post] ~ span').length) ? $('textarea[name=Post] ~ span') : $('textarea[name=Post]'),
 	$ddcFrame;
 	($postComment.length && $getBtn.length) && (
-		($getBtn.selector=='input[value=CODE]') ? $getBtn.after(btnDDC) : $getBtn.before(btnDDC),
-		$ddcFrame = $('<div />', {'id':ddcwindow}).css({'border':'border:1px outset #DDD','margin-top':'18px'}),
+		$getBtn.after(btnDDC),
+		$ddcFrame = $('<div />', {'id':ddcwindow}).css({'border':'border:1px outset #DDD','margin-top':'18px', 'display':'none'}),
 		$postComment.after($ddcFrame),
 		$ddcFrame.demiColor(),
 		$('#ddc-button-demicolor input').click(function(){

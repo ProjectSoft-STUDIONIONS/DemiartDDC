@@ -93,6 +93,17 @@ module.exports = function(grunt) {
 					 ieCompat: false
 				}
 			},
+			mess: {
+				files :{
+					'<%= globalConfig.assets %>/<%= globalConfig.css %>/mess.css' : [
+							'<%= globalConfig.dev %>/<%= globalConfig.css %>/mess.less'
+						]
+				},
+				options : {
+					 compress: true,
+					 ieCompat: false
+				}
+			},
 			styles : {
 				files :{
 					'<%= globalConfig.assets %>/<%= globalConfig.css %>/styles.css' : [
@@ -135,6 +146,13 @@ module.exports = function(grunt) {
 				],
 				dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/options.js'
 			},
+			mess: {
+				src: [
+					'<%= globalConfig.bp %>/jquery/dist/jquery.js',
+					'<%= globalConfig.dev %>/<%= globalConfig.js %>/mess.js'
+				],
+				dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/mess.js'
+			},
 			ddc: {
 				src: [
 					'<%= globalConfig.bp %>/code-prettify/src/prettify.js',
@@ -166,6 +184,10 @@ module.exports = function(grunt) {
 			countmsg: {
 				src: '<%= globalConfig.dev %>/<%= globalConfig.js %>/count-msg.js',
 				dest: '<%= globalConfig.assets %>/<%= globalConfig.js %>/count-msg.js'
+			},
+			mess: {
+				src: '<%= globalConfig.dev %>/<%= globalConfig.test %>/mess.js',
+				dest: '<%= globalConfig.assets %>/<%= globalConfig.js %>/mess.js'
 			},
 			ddc: {
 				src: '<%= globalConfig.dev %>/<%= globalConfig.test %>/ddc.js',
