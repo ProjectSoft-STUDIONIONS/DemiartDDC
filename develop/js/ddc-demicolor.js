@@ -1,20 +1,65 @@
 ﻿;
+window.styleSheetWriter = (
+	function () {
+		var selectorMap = {},
+			supportsInsertRule;	
+		return {
+			getSheet: (function () {
+				var sheet = false;
+				return function () {
+					if (!sheet) {
+						var style = document.createElement("style");
+						style.appendChild(document.createTextNode(""));
+						style.title = "DDC_StyleSheet";
+						document.head.appendChild(style);
+						sheet = style.sheet;
+						supportsInsertRule = (sheet.insertRule == undefined) ? false : true;
+					};
+					return sheet;
+				}
+			})(),
+			setRule: function (selector, property, value) {
+				var sheet = this.getSheet(),
+					rules = sheet.rules || sheet.cssRules;
+				property = property.replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();});
+				if (!selectorMap.hasOwnProperty(selector)){
+					var index = rules.length;
+					if (supportsInsertRule) {
+						sheet.insertRule([selector, " {", property, ": ", value, ";}"].join(""), index);
+					} else {
+						sheet.addRule(selector, [property, ": ", value].join(""), index);
+					}
+					selectorMap[selector] = index;
+				} else {
+					rules[selectorMap[selector]].style.setProperty(property, value);
+				}
+			},
+			clear: function(){
+				var sheet = this.getSheet();
+				if(sheet.rules.length){
+					while(sheet.rules.length){
+						sheet.deleteRule(0);
+					}
+				}
+				selectorMap = [];
+			}
+		};
+	}
+)();
 (function($){
 	"use strict";
 	/**
 	** Demiart DemiColor Code
 	**/
 	var demiColor = {
-		version: 	'1.0.2',
+		version: 	'6.0.9',
 		autor: 		'ProjectSoft'
 	},
 	protocolLoc = window.location.protocol.replace(/:/gi, ""),
-	$link 	= '\n[right][url=http://demicolor.demiart.ru/]DemiColor '+demiColor.version+'[/url][/right]\n',
+	$link 	= '\n[right][url=https://chrome.google.com/webstore/detail/demiart-discussion-count/jpbpbenadfnimgnmgipcbbplldlalohm]DDC '+demiColor.version+'[/url][/right]\n',
 	index = 0;
 	$('#titleVersion').text(demiColor.version);
 	$.fn.demiColor = function(options){
-		var sheet = window.styleSheetWriter;
-		sheet.getSheet();
 		var defaults = {
 			schemes : {
 				'default':		{
@@ -92,6 +137,7 @@
 					}).append(
 						$("<a>", {
 							class: "ddc-lang"+active,
+							href: "javascript:;",
 							"data-lang": s,
 							"data-scheme": o.langs[s]['scheme'],
 							text: o.langs[s]['title']
@@ -99,7 +145,7 @@
 					)
 				);
 			};
-			return wrapp.append(list).append($("<div>", {class: "ddc-clr"}));
+			return wrapp.append(list).append(ins).append(calc).append($("<div>", {class: "ddc-clr"}));
 		},
 		getSourceWrapp = function(){
 			return $("<div>", {
@@ -247,27 +293,18 @@
 							rowsCount > o.maxRow && (a = "[color=yellow]\u041a\u043e\u0434 " +o. langs[$codeLang]['title'] + ":[/color][more]" + a + "[/more]");
 							$result.empty().append(a);
 							$codeLength.text($result.text().length);
-							var e = $result[0];
-							if(window.getSelection){
-								var s1 = window.getSelection();
-								if(s1.setBaseAndExtent){
-									s1.setBaseAndExtent(e,0,e,e.innerText.length-1);
-								}else{
-									var r = document.createRange();
-									r.selectNodeContents(e);
-									s1.removeAllRanges();
-									s1.addRange(r);
-								}
-							}else if(document.getSelection){
-								var s1 = document.getSelection();
-								var r  = document.createRange();
-								r.selectNodeContents(e);
-								s1.removeAllRanges();
-								s1.addRange(r);
-							}else if(document.selection){
-								var r = document.body.createTextRange();
-								r.moveToElementText(e);
-								r.select();
+							var range,
+								selection;
+							if (document.body.createTextRange) {
+								range = document.body.createTextRange();
+								range.moveToElementText($result[0]);
+								range.select();
+							} else if (window.getSelection) {
+								selection = window.getSelection();
+								range = document.createRange();
+								range.selectNodeContents($result[0]);
+								selection.removeAllRanges();
+								selection.addRange(range);
 							}
 							$(this).fadeOut(500,function(){$insertPost.removeAttr('disabled');});
 						}
@@ -319,19 +356,25 @@
 	var ddcwindow = "DemiColor"
 	if($(document).data('DemiColor') == ddcwindow) return;
 	$(document).data('DemiColor', ddcwindow);
-	var $getBtn = $('.butmid input.codebuttons[name=MEDIA]') || $('.butmid input.codebuttons[name=CODE_]') || $('.butmid input.codebuttons[name=img]'),
-	btnDDC = '<span id="ddc-button-demicolor">&nbsp;<input type="button" value="'+ddcwindow+'" class="codebuttons '+ddcwindow+' recinput">&nbsp;&nbsp;</span>',
-	$postComment = ($('textarea[name=Post] ~ span').length) ? $('textarea[name=Post] ~ span') : $('textarea[name=Post]'),
+	var $getBtn = $('input[name=CODE_]') || $('input[name=MEDIA]') || $('input[name=img]'),
+	btnDDC = '<span id="ddc-button-demicolor"> <input type="button" value=" '+ddcwindow+' CODE " class="codebuttons '+ddcwindow+' recinput"> </span>',
+	$postComment = $('textarea[name=Post]'),
 	$ddcFrame;
-	($postComment.length && $getBtn.length) && (
+	($postComment.length && $getBtn.length && $("#DemiColor").length == 0) && (
 		$getBtn.after(btnDDC),
-		$ddcFrame = $('<div />', {'id':ddcwindow}).css({'border':'border:1px outset #DDD','margin-top':'18px', 'display':'none'}),
+		$ddcFrame = $('<div />', {'id':ddcwindow}).css({'border':'border:1px outset #DDD','margin-top':'18px'}),
 		$postComment.after($ddcFrame),
 		$ddcFrame.demiColor(),
 		$('#ddc-button-demicolor input').click(function(){
-			$ddcFrame.toggle().is(':visible') && $ddcFrame.trigger('ddcfocus');
+			$ddcFrame.toggle().is(':visible') ? $ddcFrame.trigger('ddcfocus') : $postComment.focus();
+			return !1;
+		}),
+		$("#scrolldown").unbind("click").click(function(e){
+			e.preventDefault();
+			window.scrollTo(0, $($("body")[0]).height());
+			console.log($(".post_hr").length-2);
 			return !1;
 		}),
 		setTimeout(function(){$ddcFrame.hide();}, 50)
-	)
+	);
 }());
