@@ -22747,7 +22747,7 @@ window.styleSheetWriter = (
 	** Demiart DemiColor Code
 	**/
 	var demiColor = {
-		version: 	'6.0.9',
+		version: 	'7.0.1',
 		autor: 		'ProjectSoft'
 	},
 	protocolLoc = window.location.protocol.replace(/:/gi, ""),
@@ -23058,7 +23058,9 @@ window.styleSheetWriter = (
 	($postComment.length && $getBtn.length && $("#DemiColor").length == 0) && (
 		$getBtn.after(btnDDC),
 		$ddcFrame = $('<div />', {'id':ddcwindow}).css({'border':'border:1px outset #DDD','margin-top':'18px'}),
-		$postComment.after($ddcFrame),
+		// Определить место вставки в зависимости от url страницы
+		$(".dropzone").length ? $(".dropzone").after($ddcFrame) : $postComment.after($ddcFrame),
+		
 		$ddcFrame.demiColor(),
 		$('#ddc-button-demicolor input').click(function(){
 			$ddcFrame.toggle().is(':visible') ? $ddcFrame.trigger('ddcfocus') : $postComment.focus();
@@ -23069,6 +23071,9 @@ window.styleSheetWriter = (
 			window.scrollTo(0, $($("body")[0]).height());
 			console.log($(".post_hr").length-2);
 			return !1;
+		}),
+		$(".chat2.qms").css({
+			"min-width" : "829px"
 		}),
 		setTimeout(function(){$ddcFrame.hide();}, 50)
 	);
