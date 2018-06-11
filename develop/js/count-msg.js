@@ -27,22 +27,25 @@
 			link.href = url;
 			document.getElementsByTagName('head')[0].appendChild(link);
 		};
-		chrome.runtime.onMessage.addListener(function(msg, ob, sendResponse) {
-			var adiscuss2 = document.getElementById('adiscuss2'),
-				adiscuss = document.getElementById('adiscuss');
-			if(msg.message == 'ddc'){
-				obddc.url = msg.url;
-				obddc.def = msg.def;
-				obddc.ddc = msg.ddc;
-				if(obddc.ddc){
-					adiscuss2 && (adiscuss2.innerHTML = insetrLink(obddc));
-					adiscuss && (adiscuss.innerHTML = insetrLink(obddc));
-				}else{
-					adiscuss2 && (adiscuss2.innerHTML = '');
-					adiscuss && (adiscuss.innerHTML = '');
-				}
-			}else if(msg.message=='favicon'){
-				setFaviconTag(msg.data);
-			}
-		});
+	chrome.runtime.onMessage.addListener(function(msg, ob, sendResponse) {
+		if(msg.message == 'ddc'){
+			obddc.url = msg.url;
+			obddc.def = msg.def;
+			obddc.ddc = msg.ddc;
+		}else if(msg.message=='favicon'){
+			setFaviconTag(msg.data);
+		}
+	});
+	var preview = document.getElementById('preview'),
+		setprev = 'setReturn',
+		script = document.createElement('script'),
+		text = document.createTextNode('function qpreview(){return;}');
+	preview && (
+		preview.getAttribute('data-prev') != setprev && (
+			preview.value = "Предпросмотр",
+			script.appendChild(text),
+			document.body.appendChild(script),
+			preview.setAttribute('data-prev', setprev)
+		)
+	);	
 }());

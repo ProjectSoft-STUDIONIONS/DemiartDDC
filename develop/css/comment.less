@@ -1,0 +1,40 @@
+.qr-nav {
+	padding-bottom: 0px;
+	max-width: 100%;
+	margin-right: 20px;
+	width: 97% !important;
+	max-width: 905px !important;
+	margin-right: 15px;
+	&:before,
+	&:after {
+		content: "";
+		display: table;
+		clear:both;
+	}
+	.m-vis {
+		display: none;
+	}
+	.preview {
+		&-label {
+			width: auto !important;
+			background-image: unset !important;
+			background-color: #999999 !important;
+			padding: 2px 6px 2px 6px !important;
+			cursor: pointer !important;
+			text-shadow: 1px 1px 1px rgba(240, 240, 240, 0.4) !important;
+			font-weight: bold !important;
+			color: #333 !important;
+			border-width: 2px !important;
+			border-style: outset !important;
+			border-color: buttonface !important;
+			opacity: 1 !important;
+		}
+	}
+	a {
+		display: inline-block;
+	}
+	input,
+	a {
+		margin-bottom: 8px
+	}
+}

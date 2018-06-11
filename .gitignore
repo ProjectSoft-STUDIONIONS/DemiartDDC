@@ -4,3 +4,4 @@
 /temps/**/*
 /**/*.zip
 /*.zip
+/*-lock.json
