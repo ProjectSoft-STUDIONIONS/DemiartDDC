@@ -819,7 +819,7 @@ window.urlList = [
 		statusTab = changeInfo.status;
 		var req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig,
 			regusr = /(UserCP)/ig,
-			userPage = new RegExp("showuser=1393929", "ig"),
+			userPage = new RegExp("showuser", "ig"),
 			regex = /(showtopic=(\d+))/ig;
 		if(changeInfo.status=='loading'){
 			if(req.test(tab.url)){
@@ -829,9 +829,19 @@ window.urlList = [
 				if(regusr.test(tab.url)==false){
 					executeScripts(tab.id);
 				}
-				/*if(userPage.test(tab.url)){
-					executeMessScripts(tab.id);
-				}*/
+				if(userPage.test(tab.url)){
+					//executeMessScripts(tab.id);
+					var usReq = /showuser=(\d+)/,
+						ids = usReq.exec(tab.url);
+					if(ids){
+						setTimeout(function() {
+							chrome.tabs.sendMessage(tab.id, {
+								message: 'showuser',
+								url : options.protocolForum + '://demiart.ru/forum/index.php?act=UserCP&CODE=tdemoney&member_id='+ids[1]
+							});
+						}, 1500);
+					}
+				}
 				if(options.demiColor){
 					executeDccScript(tab.id);
 					setTimeout(function() {
