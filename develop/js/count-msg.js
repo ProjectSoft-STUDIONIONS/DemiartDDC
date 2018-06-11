@@ -61,7 +61,7 @@
 						linkMoney.appendChild(icon),
 						linkMoney.appendChild(text),
 						profbut.appendChild(linkMoney),
-						profbut.appendAfter(cnock),
+						cnock && profbut.appendAfter(cnock),
 						profDiv.setAttribute('data-sendmoney', 'sendmoney')
 					)
 				);
