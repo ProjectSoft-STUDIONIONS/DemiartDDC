@@ -1,1 +1,92 @@
-!function(){"use strict";Element.prototype.appendAfter=function(e){e.parentNode.insertBefore(this,e.nextSibling)};var e=window.location.protocol.replace(/:/gi,""),s={url:e+"://demiart.ru/forum/index.php",def:e+"://demiart.ru/forum/index.php",ddc:0},u=function(e){!function(){for(var e=document.getElementsByTagName("link"),t=document.getElementsByTagName("head")[0],n=0,a=e.length;n<a;n++)void 0!==e[n]&&(e[n].getAttribute("type")||"").match(/image\/x-icon/)&&t.removeChild(e[n])}();var t=document.createElement("link");t.type="image/x-icon",t.rel="shortcut Icon",t.href=e,document.getElementsByTagName("head")[0].appendChild(t)};chrome.runtime.onMessage.addListener(function(e,t,n){switch(e.message){case"ddc":s.url=e.url,s.def=e.def,s.ddc=e.ddc;break;case"favicon":u(e.data);break;case"showuser":var a,d,r,c,o,m,i=document.getElementsByClassName("postdetails");i.length&&"sendmoney"!=i[0].getAttribute("data-sendmoney")&&(a=i[0],m=document.getElementsByClassName("prof-but")[2],(d=document.createElement("div")).className="prof-but",(r=document.createElement("a")).href=e.url,r.target="_blank",r.className="but_view_demi",(c=document.createElement("i")).className="icon-vcard prof-but-icon",(o=document.createElement("span")).className="m-none3",o.appendChild(document.createTextNode("Перевести демани")),r.appendChild(c),r.appendChild(o),d.appendChild(r),m&&d.appendAfter(m),a.setAttribute("data-sendmoney","sendmoney"))}"ddc"==e.message?(s.url=e.url,s.def=e.def,s.ddc=e.ddc):"favicon"==e.message&&u(e.data)});var t=document.getElementById("preview"),n="setReturn",a=document.createElement("script"),d=document.createTextNode("function qpreview(){return;}");t&&t.getAttribute("data-prev")!=n&&(t.value="Предпросмотр",a.appendChild(d),document.body.appendChild(a),t.setAttribute("data-prev",n))}();
+(function(){
+	"use strict";
+	Element.prototype.appendAfter = function(element) {
+		element.parentNode.insertBefore(this, element.nextSibling);
+	};
+	var protocolLoc = window.location.protocol.replace(/:/gi, "");
+		var obddc = {
+			url: protocolLoc + '://demiart.ru/forum/index.php',
+			def: protocolLoc + '://demiart.ru/forum/index.php',
+			ddc: 0
+		},
+		insetrLink = function(o){
+			return '<a href="'+o.url+'" class="noty" title="(+'+o.ddc+') непрочитанные комментарии">+'+o.ddc+'</a>';
+		},
+		removeFavicon = function(){
+			var links = document.getElementsByTagName('link');
+			var head = document.getElementsByTagName('head')[0];
+			for(var i=0, len=links.length; i < len; i++) {
+				var exists = (typeof(links[i]) !== 'undefined');
+				if (exists && (links[i].getAttribute('type') || '').match(/image\/x-icon/)) {
+					head.removeChild(links[i]);
+				}
+			}
+		},
+		setFaviconTag = function(url){
+			removeFavicon();
+			var link = document.createElement('link');
+			link.type = 'image/x-icon';
+			link.rel = 'shortcut Icon';
+			link.href = url;
+			document.getElementsByTagName('head')[0].appendChild(link);
+		};
+	chrome.runtime.onMessage.addListener(function(msg, ob, sendResponse) {
+		switch(msg.message){
+			case 'ddc':
+				obddc.url = msg.url;
+				obddc.def = msg.def;
+				obddc.ddc = msg.ddc;
+				break;
+			case 'favicon':
+				setFaviconTag(msg.data);
+				break;
+			case 'showuser':
+				var prof = document.getElementsByClassName('postdetails'),
+					profDiv, profbut, linkMoney, icon, text, cnock;
+				console.log('postdetails', prof);
+				prof.length && (
+						prof[0].getAttribute('data-sendmoney') != 'sendmoney' && (
+						profDiv = prof[0],
+						cnock = document.getElementsByClassName('icon-gift')[0].parentNode.parentNode,
+						console.log(cnock),
+						profbut = document.createElement('div'),
+						profbut.className = 'prof-but',
+						linkMoney = document.createElement('a'),
+						linkMoney.href = msg.url,
+						linkMoney.target = '_blank',
+						linkMoney.className = 'but_view_demi',
+						icon = document.createElement('i'),
+						icon.className = 'icon-vcard prof-but-icon',
+						text = document.createElement('span'),
+						text.className = 'm-none3',
+						text.appendChild(document.createTextNode('Перевести демани')),
+						linkMoney.appendChild(icon),
+						linkMoney.appendChild(text),
+						profbut.appendChild(linkMoney),
+						cnock && profbut.appendAfter(cnock),
+						profDiv.setAttribute('data-sendmoney', 'sendmoney')
+					)
+				);
+				break;
+		}
+		if(msg.message == 'ddc'){
+			obddc.url = msg.url;
+			obddc.def = msg.def;
+			obddc.ddc = msg.ddc;
+		}else if(msg.message=='favicon'){
+			setFaviconTag(msg.data);
+		}
+	});
+	var preview = document.getElementById('preview'),
+		setprev = 'setReturn',
+		script = document.createElement('script'),
+		text = document.createTextNode('function qpreview(){return;}');
+	preview && (
+		preview.getAttribute('data-prev') != setprev && (
+			preview.value = "Предпросмотр",
+			script.appendChild(text),
+			document.body.appendChild(script),
+			preview.setAttribute('data-prev', setprev)
+		)
+	);	
+}());

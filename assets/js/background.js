@@ -1,1 +1,930 @@
-Math.inInterval=Math.inInterval||function(e,t,o){return Math.min(o,Math.max(t,e))},window.lang={get:function(e){return chrome.i18n.getMessage(e)}},window._helper={pack:function(e){return JSON.stringify(e)},unpack:function(e){try{return JSON.parse(e)}catch(e){return null}},isNumber:function(e){return!isNaN(parseFloat(e))&&isFinite(e)&&!this.isString&&!this.isBoolean&&!this.isObject&&!this.isArray},isArray:function(e){return!this.isNull(e)&&"[object Array]"===Object.prototype.toString.call(e)},isObject:function(e){return!this.isEmpty(e)&&"object"==typeof e},isBoolean:function(e){return"boolean"==typeof e},isString:function(e){return"string"==typeof e},isNull:function(e){return null==e},isEmpty:function(e){return this.isNull(e)||void 0!==e.length&&0==e.length}},window.storage={get:function(e,t,o){var r=void 0===localStorage[e]||"null"==typeof localStorage[e]?_helper.pack(t):localStorage[e];switch(r=null==_helper.unpack(r)?t:_helper.unpack(r),o){case"number":(_helper.isNull(r)||_helper.isEmpty(r))&&(r=0),_helper.isNumber(r)||(r=parseFloat(r)),this.set(e,r);break;case"boolean":r=_helper.isBoolean(r)?r:!!t,this.set(e,r);break;case"object":case"array":r=_helper.isObject(r)||_helper.isArray(r)?r:"array"==o?[]:{},this.set(e,r);break;default:this.set(e,r)}return r},set:function(e,t){t=_helper.pack(t),localStorage[e]=t}},window.options={get refreshInterval(){return storage.get("refresh_interval",.1666666666666667,"number")},get audioOn(){return storage.get("audioOn",!0,"boolean")},get showContext(){return storage.get("showContext",!0,"boolean")},get refreshSoundFile(){return storage.get("refresh_sound_file","assets/sound/click.ogg","string")},get urlForum(){return storage.get("url_forum","://demiart.ru/forum/","string")},get refreshDate(){return storage.get("refresh_date",(new Date).getFullYear(),"number")},get viewTab(){return storage.get("viewtab",!0,"boolean")},get sounVolume(){return storage.get("sounVolume",.5,"number")},get favicon(){return storage.get("favicon",!0,"boolean")},get demiColor(){return storage.get("demiColor",!0,"boolean")},get protocolForum(){return storage.get("protocol","https","string")},set refreshInterval(e){storage.set("refresh_interval",e)},set audioOn(e){storage.set("audioOn",e)},set showContext(e){storage.set("showContext",e)},set refreshSoundFile(e){storage.set("refresh_sound_file",e)},set urlForum(e){storage.set("url_forum",e)},set refreshDate(e){storage.set("refresh_date",e)},set viewTab(e){storage.set("viewtab",e)},set sounVolume(e){e=Math.inInterval(e,0,1),storage.set("sounVolume",e)},set favicon(e){storage.set("favicon",e)},set demiColor(e){storage.set("demiColor",e)},set protocolForum(e){storage.set("protocol",e)}},window.soundList=[{name:lang.get("defaulSound"),value:"assets/sound/click.ogg",id:"click"},{name:lang.get("messengerSound"),value:"assets/sound/ding.ogg",id:"ding"},{name:lang.get("alarmSound"),value:"assets/sound/alert-0000.ogg",id:"alert-0000"},{name:lang.get("water1Sound"),value:"assets/sound/water-0000.ogg",id:"water-0000"},{name:lang.get("water2Sound"),value:"assets/sound/water-0001.ogg",id:"water-0001"},{name:lang.get("water3Sound"),value:"assets/sound/water-0002.ogg",id:"water-0002"},{name:lang.get("android1Sound"),value:"assets/sound/android-0000.ogg",id:"android-0000"},{name:lang.get("android2Sound"),value:"assets/sound/android-0001.ogg",id:"android-0001"},{name:lang.get("android3Sound"),value:"assets/sound/android-0002.ogg",id:"android-0002"},{name:lang.get("android4Sound"),value:"assets/sound/android-0003.ogg",id:"android-0003"},{name:lang.get("android5Sound"),value:"assets/sound/animal-0000.ogg",id:"animal-0000"},{name:lang.get("kickSound"),value:"assets/sound/kick-0000.ogg",id:"kick-0000"},{name:lang.get("laser1Sound"),value:"assets/sound/lazer-0000.ogg",id:"lazer-0000"},{name:lang.get("laser2Sound"),value:"assets/sound/lazer-0001.ogg",id:"lazer-0001"},{name:lang.get("sequence1Sound"),value:"assets/sound/sequence-0000.ogg",id:"sequence-0000"},{name:lang.get("sequence2Sound"),value:"assets/sound/sequence-0001.ogg",id:"sequence-0001"},{name:lang.get("sundry1Sound"),value:"assets/sound/misc-0000.ogg",id:"misc-0000"},{name:lang.get("sundry2Sound"),value:"assets/sound/misc-0001.ogg",id:"misc-0001"},{name:lang.get("sundry3Sound"),value:"assets/sound/misc-0002.ogg",id:"misc-0002"},{name:lang.get("sundry4Sound"),value:"assets/sound/animal-0001.ogg",id:"animal-0001"},{name:lang.get("chat1Sound"),value:"assets/sound/sound_1.ogg",id:"sound_1"},{name:lang.get("chat2Sound"),value:"assets/sound/sound_2.ogg",id:"sound_2"},{name:lang.get("chat3Sound"),value:"assets/sound/sound_3.ogg",id:"sound_3"},{name:lang.get("chat4Sound"),value:"assets/sound/sound_4.ogg",id:"sound_4"},{name:lang.get("chat5Sound"),value:"assets/sound/sound_5.ogg",id:"sound_5"},{name:lang.get("chat6Sound"),value:"assets/sound/sound_6.ogg",id:"sound_6"}],window.urlList=[{optiongroup:"Форум",options:[{name:"Главная страница форума",value:"://demiart.ru/forum/index.php"},{name:"Раздел «Photoshop»",value:"://demiart.ru/forum/index.php?act=SC&c=2"},{name:"Раздел «Art»",value:"://demiart.ru/forum/index.php?act=SC&c=3"},{name:"Раздел «Фото»",value:"://demiart.ru/forum/index.php?act=SC&c=11"},{name:"Раздел «Креатив и Созидание»",value:"://demiart.ru/forum/index.php?act=SC&c=9"},{name:"Раздел «Векторные редакторы»",value:"://demiart.ru/forum/index.php?act=SC&c=8"},{name:"Раздел «Flash»",value:"://demiart.ru/forum/index.php?act=SC&c=13"},{name:"Раздел «Handmade. Декоративно-прикладное искусство.»",value:"://demiart.ru/forum/index.php?act=SC&c=18"},{name:"Раздел «Изо»",value:"://demiart.ru/forum/index.php?act=SC&c=15"},{name:"Раздел «3D редакторы»",value:"://demiart.ru/forum/index.php?act=SC&c=10"},{name:"Раздел «Обработка и создание Видео»",value:"://demiart.ru/forum/index.php?act=SC&c=6"},{name:"Раздел «Фракталы»",value:"://demiart.ru/forum/index.php?act=SC&c=19"},{name:"Раздел «Painter и Планшеты»",value:"://demiart.ru/forum/index.php?act=SC&c=17"},{name:"Раздел «Музыка»",value:"://demiart.ru/forum/index.php?act=SC&c=14"},{name:"Раздел «Литература»",value:"://demiart.ru/forum/index.php?act=SC&c=16"},{name:"Раздел «Компьютерные программы»",value:"://demiart.ru/forum/index.php?act=SC&c=20"},{name:"Раздел «Работа»",value:"://demiart.ru/forum/index.php?act=SC&c=21"},{name:"Раздел «Соревнования»",value:"://demiart.ru/forum/index.php?act=SC&c=7"},{name:"Раздел «НАШЕ ВСЁ»",value:"://demiart.ru/forum/index.php?act=SC&c=4"}]},{optiongroup:"Гильдии",options:[{name:"Главная страница Гильдий",value:"://demiart.ru/forum/index.php?act=SC&c=12"},{name:"Форум гильдии Темных",value:"://demiart.ru/forum/index.php?showforum=53"},{name:"Форум гильдии Фантазеров",value:"://demiart.ru/forum/index.php?showforum=56"},{name:"Форум гильдии Фотографов",value:"://demiart.ru/forum/index.php?showforum=60"},{name:"Форум гильдии новичков",value:"://demiart.ru/forum/index.php?showforum=62"},{name:"Форум гильдии Светлых",value:"://demiart.ru/forum/index.php?showforum=63"},{name:"Форум гильдии Вампиров",value:"://demiart.ru/forum/index.php?showforum=68"},{name:"Форум гильдии мир анимэ и манги",value:"://demiart.ru/forum/index.php?showforum=69"},{name:"Форум гильдии Художников",value:"://demiart.ru/forum/index.php?showforum=74"},{name:"Форум гильдии Живописцев",value:"://demiart.ru/forum/index.php?showforum=77"},{name:"Форум гильдии бездельников",value:"://demiart.ru/forum/index.php?showforum=79"},{name:"Форум гильдии Графиков",value:"://demiart.ru/forum/index.php?showforum=84"},{name:"Форум гильдии Фотоарта",value:"://demiart.ru/forum/index.php?showforum=89"},{name:"Форум гильдии Векторщиков",value:"://demiart.ru/forum/index.php?showforum=92"},{name:"Форум гильдии NuArt",value:"://demiart.ru/forum/index.php?showforum=112"},{name:"Форум гильдии Мафии",value:"://demiart.ru/forum/index.php?showforum=114"},{name:"Форум гильдии Трёхмерщиков",value:"://demiart.ru/forum/index.php?showforum=115"},{name:"Форум гильдии Оригиналов",value:"://demiart.ru/forum/index.php?showforum=116"},{name:"Форум гильдии Фрактальщиков",value:"://demiart.ru/forum/index.php?showforum=122"},{name:"Форум гильдии Комиксов",value:"://demiart.ru/forum/index.php?showforum=123"},{name:"Форум гильдии Анималистов",value:"://demiart.ru/forum/index.php?showforum=125"},{name:"Форум гильдии Лингвистов",value:"://demiart.ru/forum/index.php?showforum=126"}]}],function(){var n,u,i,c,d,m,e="undefined"!=typeof chrome?chrome.extension.getBackgroundPage():opera.extension.bgProcess,s=(chrome.i18n.getMessage("@@extension_id"),options.urlForum),l=new Audio(options.refreshSoundFile),o=0,r=0,g=0,p=options.protocolForum+"://demiart.ru/forum/",t=new Image,a=new Image,h=new Image,f=document.createElement("canvas"),v=document.createElement("canvas"),x=v.getContext("2d"),b=f.getContext("2d"),w=window.devicePixelRatio||1,S={width:7,height:9,font:"bold "+10*w+"px arial",colour:"#ffffff",background:"#F03D25",size:16},k=function(e){chrome.tabs.insertCSS(e,{file:"assets/css/count-msg.css"},function(){chrome.tabs.executeScript(e,{file:"assets/js/count-msg.js"},function(){})})},C=function(){clearTimeout(o);var e=19*(r=35<r?0:r),t={};b.drawImage(a,e,0,19,19,0,0,19,19),t[19]=b.getImageData(0,0,19,19),chrome.browserAction.setIcon({imageData:t}),++r,o=setTimeout(C,60)},y=function(){clearTimeout(o),chrome.browserAction.setIcon({path:"assets/images/icon19.png"})},M=function(e){x.clearRect(0,0,16,16),x.drawImage(h,0,0,16,16,0,0,16,16);if(e=parseInt(e)){var t,o=S.size-S.height*w,r=S.size-(S.width*w+6*w*(((e=99<e?99:e)+"").length-1))-w,n=t=16*w,a=2*w;x.font=S.font,x.fillStyle=x.strokeStyle="#F03D25",x.lineWidth=1,x.beginPath(),x.moveTo(r+a,o),x.quadraticCurveTo(r,o,r,o+a),x.lineTo(r,n-a),x.quadraticCurveTo(r,n,r+a,n),x.lineTo(t-a,n),x.quadraticCurveTo(t,n,t,n-a),x.lineTo(t,o+a),x.quadraticCurveTo(t,o,t-a,o),x.closePath(),x.fill(),x.beginPath(),x.strokeStyle="rgba(0,0,0,0.3)",x.moveTo(r+a/2,n),x.lineTo(t-a/2,n),x.stroke(),x.fillStyle=S.colour,x.textAlign="right",x.textBaseline="top",x.fillText(e+"",2===w?29:15,6*w)}return v.toDataURL()},F=function(){u&&clearTimeout(u),chrome.contextMenus.removeAll(),s=options.urlForum,options.refreshInterval||(u=setTimeout(P,6e4*options.refreshInterval)),chrome.tabs.query({},function(e){for(var t=0;t<e.length;++t){var o=e[t].id;if(/(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/gi.test(e[t].url))if(chrome.tabs.sendMessage(o,{ddc:g,url:p,def:options.protocolForum+options.urlForum,message:"ddc"}),options.favicon){var r=M(g);chrome.tabs.sendMessage(o,{data:r,message:"favicon"})}else chrome.tabs.sendMessage(o,{data:"/favicon.ico",message:"favicon"})}}),L()},I=function(e,t){switch(e.menuItemId){case i:u&&clearTimeout(u),u=setTimeout(function(){P()},5e3),null!=n?chrome.tabs.get(n.id,_):chrome.tabs.create({url:options.protocolForum+s,active:!0},T);break;case d:chrome.tabs.create({url:"http://demicolor.demiart.ru/",active:!0},null);break;case c:chrome.tabs.create({url:"http://morgoth.ru/",active:!0},null);break;case m:chrome.tabs.create({url:"http://www.youtube.com/c/demiartru",active:!0},null)}},T=function(e){n=e},_=function(e){if((n=e)&&options.viewTab){if(/(https?:\/\/demiart.ru\/forum)/gi.test(e.url))try{chrome.tabs.update(e.id,{url:options.protocolForum+s,active:!0},T)}catch(e){chrome.tabs.create({url:options.protocolForum+s,active:!0},T)}else chrome.tabs.create({url:options.protocolForum+s,active:!0},T)}else chrome.tabs.create({url:options.protocolForum+s,active:!0},T)},A=function(e,t){options.showContext=e.checked,chrome.contextMenus.removeAll(),L()},q=function(e,t){options.audioOn=e.checked},D=function(e,t){options.refreshSoundFile="assets/sound/"+e.menuItemId+".ogg",l.src=options.refreshSoundFile,l.volume=options.sounVolume,l.play()},O=function(e,t){options.sounVolume=e.menuItemId,l.src=options.refreshSoundFile,l.volume=options.sounVolume,l.play()},j=function(e,t){options.viewTab=e.checked},N=function(e,t){options.demiColor=e.checked},B=function(e,t){options.favicon=e.checked,F(),chrome.tabs.query({},function(e){for(var t=0;t<e.length;++t){var o=e[t].id;if(/(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/gi.test(e[t].url))if(0,chrome.tabs.sendMessage(o,{ddc:g,url:p,def:options.protocolForum+options.urlForum,message:"ddc"}),options.favicon){var r=M(g);chrome.tabs.sendMessage(o,{data:r,message:"favicon"})}else chrome.tabs.sendMessage(o,{data:"/favicon.ico",message:"favicon"})}})},L=function(){var e=options.showContext?"all":"browser_action",t=chrome.contextMenus.create({title:"Demiart Discussion Count",contexts:[e]});chrome.contextMenus.create({title:lang.get("refresh"),contexts:[e],parentId:t,onclick:P}),chrome.contextMenus.create({type:"separator",title:"",contexts:[e],parentId:t}),i=chrome.contextMenus.create({title:lang.get("goTo")+" "+lang.get("forum"),contexts:[e],parentId:t,onclick:I}),d=chrome.contextMenus.create({title:lang.get("goTo")+" DemiColor",contexts:[e],parentId:t,onclick:I}),c=chrome.contextMenus.create({title:lang.get("goTo")+" "+lang.get("hosting"),contexts:[e],parentId:t,onclick:I}),m=chrome.contextMenus.create({title:lang.get("goTo")+" "+lang.get("chanel"),contexts:[e],parentId:t,onclick:I}),chrome.contextMenus.create({type:"separator",title:"",contexts:[e],parentId:t}),chrome.contextMenus.create({title:lang.get("contextMenu"),contexts:[e],type:"checkbox",checked:options.showContext,parentId:t,onclick:A}),chrome.contextMenus.create({title:lang.get("soundAlarm"),type:"checkbox",checked:options.audioOn,contexts:[e],parentId:t,onclick:q}),chrome.contextMenus.create({title:lang.get("openTab"),type:"checkbox",checked:options.viewTab,contexts:[e],parentId:t,onclick:j}),chrome.contextMenus.create({title:lang.get("demiColor"),type:"checkbox",checked:options.demiColor,contexts:[e],parentId:t,onclick:N}),chrome.contextMenus.create({title:lang.get("refreshFavicon"),type:"checkbox",checked:options.favicon,contexts:[e],parentId:t,onclick:B}),chrome.contextMenus.create({type:"separator",title:"",contexts:[e],parentId:t});for(var o=chrome.contextMenus.create({title:lang.get("changeSound"),contexts:["browser_action"],type:"normal",parentId:t}),r=chrome.contextMenus.create({title:lang.get("fileSound"),contexts:["browser_action"],type:"normal",parentId:o}),n=chrome.contextMenus.create({title:lang.get("volumeSound"),contexts:["browser_action"],type:"normal",parentId:o}),a=0;a<soundList.length;++a)chrome.contextMenus.create({title:soundList[a].name,id:soundList[a].id,contexts:["browser_action"],type:"radio",checked:options.refreshSoundFile=="assets/"+soundList[a].id+".ogg",parentId:r,onclick:D});for(var s=0;s<1;)s+=.05,s=Number(s.toFixed(3)),chrome.contextMenus.create({title:Math.round(100*s)+"%",id:String(s),contexts:["browser_action"],type:"radio",checked:options.sounVolume==s,parentId:n,onclick:O});options.showContext&&(chrome.contextMenus.create({title:"separator",contexts:["page"],parentId:t,type:"separator"}),chrome.contextMenus.create({title:lang.get("settings"),contexts:["page"],parentId:t,onclick:function(){chrome.runtime.openOptionsPage()}}))},P=function(){u&&clearTimeout(u);var a=new XMLHttpRequest;a.open("GET",options.protocolForum+"://demiart.ru/forum/index.php?act=ST&CODE=discuss&_="+(new Date).getTime()),a.send(""),C(),a.onreadystatechange=function(){if(4==this.readyState)if(y(),options.refreshInterval&&(u=setTimeout(P,6e4*options.refreshInterval)),200==a.status){var e=_helper.unpack(a.response)||{count:0,href:options.protocolForum+"://demiart.ru/forum/"},t=parseInt(e.count)||0;s=e.href.replace(/^https?/,""),"://demiart.ru/forum/"==e.href&&(s=options.urlForum);var o=a.getResponseHeader("Date");if(options.refreshDate=parseInt(o.split(" ")[3]),t){chrome.browserAction.getBadgeText({},function(e){(e=parseInt(e)||0)<t&&options.audioOn&&(l.src=options.refreshSoundFile,l.volume=options.sounVolume,l.play())});var r=lang.get("comments").replace(/\*ddc\*/,String(t)),n=lang.get("commentsmenu").replace(/\*ddc\*/,String(t));chrome.browserAction.setBadgeText({text:String(t)}),chrome.browserAction.setTitle({title:r}),chrome.contextMenus.update(i,{title:n})}else chrome.browserAction.setBadgeText({text:""}),chrome.browserAction.setTitle({title:lang.get("name")}),chrome.contextMenus.update(i,{title:lang.get("goTo")+" "+lang.get("forum")});g=t,p=options.protocolForum+s,chrome.tabs.query({},function(e){for(var t=0;t<e.length;++t){var o=e[t].id;if(/(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/gi.test(e[t].url))if(0,chrome.tabs.sendMessage(o,{ddc:g,url:p,def:options.urlForum,message:"ddc"}),"true"==localStorage.favicon){var r=M(g);chrome.tabs.sendMessage(o,{data:r,message:"favicon"})}else chrome.tabs.sendMessage(o,{data:"/favicon.ico",message:"favicon"})}})}else chrome.browserAction.setBadgeText({text:"Error"})}};t.src="assets/images/fi.png",a.src="assets/images/ld.png",h.src="assets/images/favicon.png",f.width=19,v.width=16,f.height=19,v.height=16,document.body.appendChild(f),document.body.appendChild(v),l.volume=options.sounVolume,chrome.browserAction.setBadgeBackgroundColor({color:"#d22d2d"}),chrome.tabs.onUpdated.addListener(function(e,t,o){t.status;var r,n,a=/(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/gi,s=new RegExp("showuser","ig");if("loading"==t.status&&a.test(o.url)){if(/(showtopic=(\d+))/gi.test(o.url)&&(n=o.id,chrome.tabs.insertCSS(n,{file:"assets/css/mess.css"},function(){chrome.tabs.executeScript(n,{file:"assets/js/mess.js"},function(){})})),0==/(UserCP)/gi.test(o.url)&&(r=o.id,chrome.tabs.insertCSS(r,{file:"assets/css/ddc.css"},function(){chrome.tabs.executeScript(r,{file:"assets/js/ddc.js"},function(){})})),s.test(o.url)){var i=/showuser=(\d+)/.exec(o.url);i&&setTimeout(function(){chrome.tabs.sendMessage(o.id,{message:"showuser",url:options.protocolForum+"://demiart.ru/forum/index.php?act=UserCP&CODE=tdemoney&member_id="+i[1]})},1500)}options.demiColor&&(k(o.id),setTimeout(function(){chrome.tabs.sendMessage(o.id,{ddc:g,url:p,def:options.protocolForum+options.urlForum,message:"ddc"}),"true"==localStorage.favicon?chrome.tabs.sendMessage(o.id,{data:M(g),message:"favicon"}):chrome.tabs.sendMessage(o.id,{data:"/favicon.ico",message:"favicon"})},1500),y(),u&&clearTimeout(u),u=setTimeout(P,2500))}a=/(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/gi,"loading"==t.status&&a.test(o.url)}),chrome.commands.onCommand.addListener(function(e){switch(e){case"activate_tab_demi":null!=n?chrome.tabs.query({},function(e){for(var t=!1,o=0;o<e.length;++o){var r=e[o];if(n.id==r.id&&/(httpS?:\/\/demiart.ru\/forum)/gi.test(r.url)){chrome.tabs.update(r.id,{selected:!0},T),t=!0;break}}t||chrome.tabs.create({url:options.protocolForum+options.urlForum,active:!0},T)}):chrome.tabs.create({url:options.protocolForum+options.urlForum,active:!0},T)}}),chrome.browserAction.onClicked.addListener(function(e){null!=n&&"true"==localStorage.viewtab?chrome.tabs.query({},function(e){for(var t=0;t<e.length;++t){var o=e[t];if(/(https?:\/\/demiart.ru\/forum)/gi.test(o.url)&&n.id==o.id)return void chrome.tabs.update(n.id,{url:options.protocolForum+s,active:!0},T)}chrome.tabs.create({url:options.protocolForum+s,active:!0},T)}):chrome.tabs.create({url:options.protocolForum+s,active:!0},T)}),chrome.tabs.query({},function(e){for(var t=0;t<e.length;++t){var o=e[t].id;/(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/gi.test(e[t].url)&&(k(e[t].id),setTimeout(function(){chrome.tabs.sendMessage(o,{data:"/favicon.ico",message:"favicon"})},100))}}),L(),e.demiColorVer="1.0.2",e.resetOptions=F,u=setTimeout(function(){P()},1e3)}();
+Math.inInterval = Math.inInterval || function(val, min, max){
+	return Math.min(max, Math.max(min, val));
+}
+window.lang = {
+		get: function(val){
+			return chrome.i18n.getMessage(val);
+		}
+	};
+window._helper = {
+		pack: function(data){
+			return JSON.stringify(data);
+		},
+		unpack: function(data){
+			try {
+				return JSON.parse(data);
+			} catch(ex) {
+				return null;
+			}
+		},
+		isNumber: function(value){
+			return (!isNaN(parseFloat(value)) && isFinite(value) && !this.isString && !this.isBoolean && !this.isObject && !this.isArray);
+		},
+		isArray: function (value){
+			return (!this.isNull(value) && (Object.prototype.toString.call(value) === '[object Array]'));
+		},
+		isObject: function(value){
+			return (!this.isEmpty(value) && (typeof value == 'object'));
+		},
+		isBoolean: function(value){
+			return (typeof value == 'boolean');
+		},
+		isString: function(value){
+			return (typeof value == 'string');
+		},
+		isNull: function(value){
+			return ((value === undefined) || (value === null));
+		},
+		isEmpty: function(value){
+			return ( this.isNull(value) || ((typeof value.length != 'undefined') && (value.length == 0)) );
+		}
+	};
+window.storage = {
+		get: function(key, defValue, typeValue){
+			var val = (typeof localStorage[key] == "undefined" || typeof localStorage[key] == "null") ? _helper.pack(defValue) : localStorage[key];
+			val = _helper.unpack(val) == null ? defValue : _helper.unpack(val);
+			switch (typeValue){
+				case 'number':
+					if(_helper.isNull(val) || _helper.isEmpty(val))
+						val = 0;
+					if(!_helper.isNumber(val))
+						val = parseFloat(val);
+					this.set(key, val);
+					break;
+				case 'boolean':
+					val = (_helper.isBoolean(val)) ? val : (defValue ? true : false);
+					this.set(key, val);
+					break;
+				case 'object':
+				case 'array':
+					val = _helper.isObject(val) || _helper.isArray(val) ? val : (typeValue == "array" ? [] : {});
+					this.set(key, val);
+					break;
+				default:
+					this.set(key, val);
+					break;
+			}
+			return val;
+		},
+		set: function(key, value){
+			value = _helper.pack(value);
+			localStorage[key] = value;
+		}
+	};
+window.options = {
+		/* Getters */
+		get refreshInterval(){return storage.get("refresh_interval", 0.1666666666666667, 'number');},
+		get audioOn(){return storage.get("audioOn", true, 'boolean');},
+		get showContext(){return storage.get("showContext", true, 'boolean');},
+		get refreshSoundFile(){return storage.get("refresh_sound_file", 'assets/sound/click.ogg', 'string');},
+		get urlForum(){return storage.get('url_forum', "://demiart.ru/forum/", 'string');},
+		get refreshDate(){return storage.get('refresh_date', (new Date()).getFullYear(), 'number');},
+		get viewTab(){return storage.get('viewtab', true, 'boolean');},
+		get sounVolume(){return storage.get('sounVolume', 0.5, 'number');},
+		get favicon(){return storage.get('favicon', true, 'boolean');},
+		get demiColor(){return storage.get('demiColor', true, 'boolean');},
+		get protocolForum(){return storage.get('protocol', "https", 'string');},
+		/* Setters */
+		set refreshInterval(val){storage.set("refresh_interval",val);},
+		set audioOn(val){storage.set("audioOn", val);},
+		set showContext(val){storage.set("showContext", val);},
+		set refreshSoundFile(val){storage.set("refresh_sound_file", val);},
+		set urlForum(val){storage.set("url_forum", val);},
+		set refreshDate(val){storage.set("refresh_date", val);},
+		set viewTab(val){storage.set("viewtab", val);},
+		set sounVolume(val){ val = Math.inInterval(val, 0, 1); storage.set("sounVolume", val);},
+		set favicon(val){ storage.set("favicon", val);},
+		set demiColor(val){ storage.set("demiColor", val);},
+		set protocolForum(val){ storage.set("protocol", val);},
+	};
+window.soundList = [
+		{
+			name:	lang.get("defaulSound"),
+			value:	'assets/sound/click.ogg',
+			id:		'click'
+		},
+		{
+			name:	lang.get("messengerSound"),
+			value:	'assets/sound/ding.ogg',
+			id:		'ding'
+		},
+		{
+			name:	lang.get("alarmSound"),
+			value:	'assets/sound/alert-0000.ogg',
+			id:		'alert-0000'
+		},
+		{
+			name:	lang.get("water1Sound"),
+			value:	'assets/sound/water-0000.ogg',
+			id:		'water-0000'
+		},
+		{
+			name:	lang.get("water2Sound"),
+			value:	'assets/sound/water-0001.ogg',
+			id:		'water-0001'
+		},
+		{
+			name: 	lang.get("water3Sound"),
+			value:	'assets/sound/water-0002.ogg',
+			id:		'water-0002'
+		},
+		{
+			name:	lang.get("android1Sound"),
+			value:	'assets/sound/android-0000.ogg',
+			id:		'android-0000'
+		},
+		{
+			name:	lang.get("android2Sound"),
+			value:	'assets/sound/android-0001.ogg',
+			id:		'android-0001'
+		},
+		{
+			name:	lang.get("android3Sound"),
+			value:	'assets/sound/android-0002.ogg',
+			id:		'android-0002'
+		},
+		{
+			name:	lang.get("android4Sound"),
+			value:	'assets/sound/android-0003.ogg',
+			id:		'android-0003'
+		},
+		{
+			name:	lang.get("android5Sound"),
+			value:	'assets/sound/animal-0000.ogg',
+			id:		'animal-0000'
+		},
+		{
+			name:	lang.get("kickSound"),
+			value:	'assets/sound/kick-0000.ogg',
+			id:		'kick-0000'
+		},
+		{
+			name:	lang.get("laser1Sound"),
+			value:	'assets/sound/lazer-0000.ogg',
+			id:		'lazer-0000'
+		},
+		{
+			name:	lang.get("laser2Sound"),
+			value:	'assets/sound/lazer-0001.ogg',
+			id:		'lazer-0001'
+		},
+		{
+			name:	lang.get("sequence1Sound"),
+			value:	'assets/sound/sequence-0000.ogg',
+			id:		'sequence-0000'
+		},
+		{
+			name:	lang.get("sequence2Sound"),
+			value:	'assets/sound/sequence-0001.ogg',
+			id:		'sequence-0001'
+		},
+		{
+			name:	lang.get("sundry1Sound"),
+			value:	'assets/sound/misc-0000.ogg',
+			id:		'misc-0000'
+		},
+		{
+			name:	lang.get("sundry2Sound"),
+			value:	'assets/sound/misc-0001.ogg',
+			id:		'misc-0001'
+		},
+		{
+			name:	lang.get("sundry3Sound"),
+			value:	'assets/sound/misc-0002.ogg',
+			id:		'misc-0002'
+		},
+		{
+			name:	lang.get("sundry4Sound"),
+			value:	'assets/sound/animal-0001.ogg',
+			id:		'animal-0001'
+		},
+		{
+			name: 	lang.get("chat1Sound"),
+			value: 	'assets/sound/sound_1.ogg',
+			id:		'sound_1'
+		},
+		{
+			name: 	lang.get("chat2Sound"),
+			value: 	'assets/sound/sound_2.ogg',
+			id:		'sound_2'
+		},
+		{
+			name: 	lang.get("chat3Sound"),
+			value: 	'assets/sound/sound_3.ogg',
+			id:		'sound_3'
+		},
+		{
+			name: 	lang.get("chat4Sound"),
+			value: 	'assets/sound/sound_4.ogg',
+			id:		'sound_4'
+		},
+		{
+			name: 	lang.get("chat5Sound"),
+			value: 	'assets/sound/sound_5.ogg',
+			id:		'sound_5'
+		},
+		{
+			name: 	lang.get("chat6Sound"),
+			value: 	'assets/sound/sound_6.ogg',
+			id:		'sound_6'
+		}
+	];
+window.urlList = [
+		{
+			optiongroup:	"Форум",
+			options:		[
+				{
+					name: 	"Главная страница форума",
+					value:	"://demiart.ru/forum/index.php"
+				},
+				{
+					name: 	"Раздел «Photoshop»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=2"
+				},
+				{
+					name: 	"Раздел «Art»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=3"
+				},
+				{
+					name: 	"Раздел «Фото»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=11"
+				},
+				{
+					name: 	"Раздел «Креатив и Созидание»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=9"
+				},
+				{
+					name: 	"Раздел «Векторные редакторы»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=8"
+				},
+				{
+					name: 	"Раздел «Flash»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=13"
+				},
+				{
+					name: 	"Раздел «Handmade. Декоративно-прикладное искусство.»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=18"
+				},
+				{
+					name: 	"Раздел «Изо»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=15"
+				},
+				{
+					name: 	"Раздел «3D редакторы»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=10"
+				},
+				{
+					name: 	"Раздел «Обработка и создание Видео»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=6"
+				},
+				{
+					name: 	"Раздел «Фракталы»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=19"
+				},
+				{
+					name: 	"Раздел «Painter и Планшеты»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=17"
+				},
+				{
+					name: 	"Раздел «Музыка»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=14"
+				},
+				{
+					name: 	"Раздел «Литература»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=16"
+				},
+				{
+					name: 	"Раздел «Компьютерные программы»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=20"
+				},
+				{
+					name: 	"Раздел «Работа»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=21"
+				},
+				{
+					name: 	"Раздел «Соревнования»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=7"
+				},
+				{
+					name: 	"Раздел «НАШЕ ВСЁ»",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=4"
+				}
+			]
+		},
+		{
+			optiongroup:	"Гильдии",
+			options:		[
+				{
+					name: 	"Главная страница Гильдий",
+					value:	"://demiart.ru/forum/index.php?act=SC&c=12"
+				},
+				{
+					name: 	"Форум гильдии Темных",
+					value:	"://demiart.ru/forum/index.php?showforum=53"
+				},
+				{
+					name: 	"Форум гильдии Фантазеров",
+					value:	"://demiart.ru/forum/index.php?showforum=56"
+				},
+				{
+					name: 	"Форум гильдии Фотографов",
+					value:	"://demiart.ru/forum/index.php?showforum=60"
+				},
+				{
+					name: 	"Форум гильдии новичков",
+					value:	"://demiart.ru/forum/index.php?showforum=62"
+				},
+				{
+					name: 	"Форум гильдии Светлых",
+					value:	"://demiart.ru/forum/index.php?showforum=63"
+				},
+				{
+					name: 	"Форум гильдии Вампиров",
+					value:	"://demiart.ru/forum/index.php?showforum=68"
+				},
+				{
+					name: 	"Форум гильдии мир анимэ и манги",
+					value:	"://demiart.ru/forum/index.php?showforum=69"
+				},
+				{
+					name: 	"Форум гильдии Художников",
+					value:	"://demiart.ru/forum/index.php?showforum=74"
+				},
+				{
+					name: 	"Форум гильдии Живописцев",
+					value:	"://demiart.ru/forum/index.php?showforum=77"
+				},
+				{
+					name: 	"Форум гильдии бездельников",
+					value:	"://demiart.ru/forum/index.php?showforum=79"
+				},
+				{
+					name: 	"Форум гильдии Графиков",
+					value:	"://demiart.ru/forum/index.php?showforum=84"
+				},
+				{
+					name: 	"Форум гильдии Фотоарта",
+					value:	"://demiart.ru/forum/index.php?showforum=89"
+				},
+				{
+					name: 	"Форум гильдии Векторщиков",
+					value:	"://demiart.ru/forum/index.php?showforum=92"
+				},
+				{
+					name: 	"Форум гильдии NuArt",
+					value:	"://demiart.ru/forum/index.php?showforum=112"
+				},
+				{
+					name: 	"Форум гильдии Мафии",
+					value:	"://demiart.ru/forum/index.php?showforum=114"
+				},
+				{
+					name: 	"Форум гильдии Трёхмерщиков",
+					value:	"://demiart.ru/forum/index.php?showforum=115"
+				},
+				{
+					name: 	"Форум гильдии Оригиналов",
+					value:	"://demiart.ru/forum/index.php?showforum=116"
+				},
+				{
+					name: 	"Форум гильдии Фрактальщиков",
+					value:	"://demiart.ru/forum/index.php?showforum=122"
+				},
+				{
+					name: 	"Форум гильдии Комиксов",
+					value:	"://demiart.ru/forum/index.php?showforum=123"
+				},
+				{
+					name: 	"Форум гильдии Анималистов",
+					value:	"://demiart.ru/forum/index.php?showforum=125"
+				},
+				{
+					name: 	"Форум гильдии Лингвистов",
+					value:	"://demiart.ru/forum/index.php?showforum=126"
+				}
+			]
+		}
+	];;(function(){
+	var u = "undefined" != typeof chrome ? chrome.extension.getBackgroundPage() : opera.extension.bgProcess,
+		exId = chrome.i18n.getMessage("@@extension_id"),
+		discussURL = options.urlForum,
+		optionsURL = 'options.html',
+		demiColor = "http://demicolor.demiart.ru/",
+		morgoth = 'http://morgoth.ru/',
+		youtube = 'http://www.youtube.com/c/demiartru',
+		audio = new Audio(options.refreshSoundFile),
+		tabDDC, optionsDDC,
+		calarm,
+		iAni = 0,
+		cx = 0,
+		dcc_c = 0,
+		dcc_u = options.protocolForum+'://demiart.ru/forum/',
+		icon = new Image,
+		ld = new Image,
+		fvi = new Image,
+		canvas = document.createElement("canvas"),
+		favicon = document.createElement("canvas"),
+		ftx = favicon.getContext("2d"),
+		ctx = canvas.getContext("2d"),
+		pix = window.devicePixelRatio || 1,
+		fix = {
+			width: 7,
+			height: 9,
+			font: 'bold ' + (10 * pix) + 'px arial',
+			colour: '#ffffff',
+			background: '#F03D25',
+			size: 16
+		},
+		ddcGoDemiItemMenu,
+		ddcGoMorgoth,
+		ddcGoDemiColor,
+		ddcGoDemiYouTube,
+		statusTab = undefined,
+		
+		/*
+		... Скрипт для всех страниц форума
+		*/
+		executeDccScript = function(tabId){
+			chrome.tabs.insertCSS(tabId, {"file":"assets/css/count-msg.css"}, function(){
+				chrome.tabs.executeScript(tabId,{"file":"assets/js/count-msg.js"}, function(){});
+			});
+		},
+		
+		executeMessScripts = function(tabId){
+			chrome.tabs.insertCSS(tabId, {"file":"assets/css/mess.css"}, function(){
+				chrome.tabs.executeScript(tabId,{"file":"assets/js/mess.js"}, function(){});
+			});
+		},
+		
+		executeScripts = function(tabId){
+			chrome.tabs.insertCSS(tabId, {"file":"assets/css/ddc.css"}, function(){
+				chrome.tabs.executeScript(tabId,{"file":"assets/js/ddc.js"}, function(){});
+			});
+		},
+		
+		/*
+		... Анимация иконки
+		*/
+		startAnimation = function(){
+			clearTimeout(iAni);
+			cx = (cx>35) ? 0 : cx;
+			var x = cx*19,
+			imageData = {};
+			ctx.drawImage(ld,x,0,19,19,0,0,19,19);
+			imageData['19'] = ctx.getImageData(0, 0, 19, 19);
+			chrome.browserAction.setIcon({imageData:imageData});
+			++cx;
+			iAni = setTimeout(startAnimation, 60);
+		},
+		stopAnimation = function(){
+			clearTimeout(iAni);
+			chrome.browserAction.setIcon({path:"assets/images/icon19.png"});
+		},
+		drawFavicon = function(c){
+			ftx.clearRect(0, 0, 16, 16);
+			ftx.drawImage(fvi, 0, 0, 16, 16, 0, 0, 16, 16);
+			var label = c+"";
+			c = parseInt(c);
+			if(c){
+				c = c > 99 ? 99 : c;
+				var right,
+				len = (c+'').length-1,
+				width = fix.width * pix + (6 * pix * len),
+				height = fix.height * pix,
+				top = fix.size - height,
+				left = fix.size - width - pix,//w - 7,
+				bottom = right = 16 * pix,
+				radius = 2 * pix;
+				ftx.font = fix.font;
+				ftx.fillStyle = ftx.strokeStyle = "#F03D25";
+				ftx.lineWidth = 1;
+				ftx.beginPath();
+				ftx.moveTo(left + radius, top);
+				ftx.quadraticCurveTo(left, top, left, top + radius);
+				ftx.lineTo(left, bottom - radius);
+				ftx.quadraticCurveTo(left, bottom, left + radius, bottom);
+				ftx.lineTo(right - radius, bottom);
+				ftx.quadraticCurveTo(right, bottom, right, bottom - radius);
+				ftx.lineTo(right, top + radius);
+				ftx.quadraticCurveTo(right, top, right - radius, top);
+				ftx.closePath();
+				ftx.fill();
+
+				// bottom shadow
+				ftx.beginPath();
+				ftx.strokeStyle = "rgba(0,0,0,0.3)";
+				ftx.moveTo(left + radius / 2.0, bottom);
+				ftx.lineTo(right - radius / 2.0, bottom);
+				ftx.stroke();
+
+				// label
+				ftx.fillStyle = fix.colour;
+				ftx.textAlign = "right";
+				ftx.textBaseline = "top";
+
+				// unfortunately webkit/mozilla are a pixel different in text positioning
+				ftx.fillText((c+''), pix === 2 ? 29 : 15, 6*pix);
+			}
+			return favicon.toDataURL();
+		},
+		
+		
+		/*
+		... RESET OPTIONS
+		*/
+		resetOptions = function(){
+			calarm && clearTimeout(calarm);
+			chrome.contextMenus.removeAll();
+			discussURL = options.urlForum;
+			if(!options.refreshInterval){
+				calarm = setTimeout(onAlarm, options.refreshInterval * 60000);
+			}
+			chrome.tabs.query({}, function(tabs) {
+				for(var i = 0; i<tabs.length;++i){
+					var lt = tabs[i].id,
+						req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
+					if(req.test(tabs[i].url)){
+						chrome.tabs.sendMessage(lt,{ddc:dcc_c,url:dcc_u,def:options.protocolForum + options.urlForum, message:'ddc'});
+						if(options.favicon){
+							var datauri = drawFavicon(dcc_c);
+							chrome.tabs.sendMessage(lt,{'data':datauri, message:'favicon'});
+						}else{
+							chrome.tabs.sendMessage(lt,{data:"/favicon.ico", message:'favicon'});
+						}
+					}
+				}
+			});
+			contextMenuShow();
+		},
+		/*
+		... Клик по пунктам меню
+		*/
+		itemMenuClick = function(info, tab){
+			switch(info.menuItemId){
+				case ddcGoDemiItemMenu:
+					/*
+					... setTimeout переместим в начало обработки клика
+					... Чистим интервал и запускаем с интервалом 5 сек (актуально для модемного Интернета от сотовых связей)
+					*/
+					calarm && clearTimeout(calarm);
+					calarm = setTimeout(function() { onAlarm() }, 5000);
+					/*
+					... Проверяем доступность Tab
+					*/
+					(tabDDC!=undefined) ? chrome.tabs.get(tabDDC.id, getTabDdc) : chrome.tabs.create({'url': options.protocolForum + discussURL, 'active':true}, tabCreate);
+					break;
+				case ddcGoDemiColor:
+					/* Переход на проект DemiColor */
+					chrome.tabs.create({'url': demiColor, 'active':true}, null);
+					break
+				case ddcGoMorgoth:
+					/* Переход на Morgoth */
+					chrome.tabs.create({'url': morgoth, 'active':true}, null);
+					break;
+				case ddcGoDemiYouTube:
+					/* Переход на YouTube */
+					chrome.tabs.create({'url': youtube, 'active':true}, null);
+					break;
+			}
+		},
+		tabCreate = function(tab){
+			tabDDC = tab;
+		},
+		getTabDdc = function(tab){
+			tabDDC = tab;
+			if(tab && options.viewTab){
+				/*
+				... проверка url вкладки
+				*/
+				var req = /(https?:\/\/demiart.ru\/forum)/ig;
+				if(req.test(tab.url)){
+					/*
+					... Если таб был закрыт.
+					... Данная ошибка свойственна только для Yandex браузера.
+					*/
+					try{
+						chrome.tabs.update(tab.id, {'url': options.protocolForum + discussURL, 'active':true}, tabCreate);
+					}catch(e){
+						chrome.tabs.create({'url': options.protocolForum + discussURL, 'active':true}, tabCreate);
+					}
+				}else{
+					chrome.tabs.create({'url': options.protocolForum + discussURL, 'active':true}, tabCreate);
+				}
+			}
+			else
+				chrome.tabs.create({'url': options.protocolForum + discussURL, 'active':true}, tabCreate);
+		},
+		/*
+		... Показывать/скрывать контекстное меню
+		*/
+		contextShowClick = function(info, tab){
+			options.showContext = info.checked;
+			chrome.contextMenus.removeAll();
+			contextMenuShow();
+		},
+		/*
+		... Включить/Отключить звук
+		*/
+		onSoundChange = function(info, tab){
+			options.audioOn = info.checked;
+		},
+		/*
+		... Изменить файл звука оповещения
+		*/
+		onSoundFileChange = function(info, tab){
+			options.refreshSoundFile = 'assets/sound/'+info.menuItemId+'.ogg';
+			audio.src = options.refreshSoundFile;
+			audio.volume = options.sounVolume;
+			audio.play();
+		},
+		/*
+		... Изменить громкость оповещения
+		*/
+		onSoundVolumeChange = function(info, tab){
+			options.sounVolume = info.menuItemId;
+			audio.src = options.refreshSoundFile;
+			audio.volume = options.sounVolume;
+			audio.play();
+		},
+		/*
+		... Открывать в той же вкладке
+		*/
+		onTabChange = function(info, tab){
+			options.viewTab = info.checked;
+		},
+		/*
+		... DemiColor в форме комментариев
+		*/
+		onDemiColorChange = function(info, tab){
+			options.demiColor = info.checked;
+		},
+		/*
+		... Обновлять иконку сайта
+		*/
+		onFavIconChange = function(info, tab){
+			options.favicon = info.checked;
+			resetOptions();
+			chrome.tabs.query({}, function(tabs) {
+				var dc = 0;
+				for(var i = 0; i<tabs.length;++i){
+					var lt = tabs[i].id,
+					req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
+					if(req.test(tabs[i].url)){
+						++dc;
+						chrome.tabs.sendMessage(lt,{ddc:dcc_c,url:dcc_u,def:options.protocolForum + options.urlForum, message:'ddc'});
+						if(options.favicon){
+							var datauri = drawFavicon(dcc_c);
+							chrome.tabs.sendMessage(lt,{'data':datauri, message:'favicon'});
+						}else{
+							chrome.tabs.sendMessage(lt,{data:"/favicon.ico", message:'favicon'});
+						}
+					}
+				}
+			});
+		},
+		
+		/*
+		... Контекстное меню
+		*/		
+		contextMenuShow = function(){
+			var shcm = (options.showContext) ? "all" : "browser_action";
+			var ddcMenu = chrome.contextMenus.create({"title": "Demiart Discussion Count", "contexts":[shcm]});
+			chrome.contextMenus.create({"title": lang.get("refresh"), "contexts":[shcm], "parentId": ddcMenu, "onclick": onAlarm});
+			chrome.contextMenus.create({"type":"separator","title": "", "contexts":[shcm], "parentId": ddcMenu});
+			
+			ddcGoDemiItemMenu = chrome.contextMenus.create({"title": lang.get("goTo")+" "+lang.get("forum"), "contexts":[shcm], "parentId": ddcMenu, "onclick": itemMenuClick});
+			ddcGoDemiColor = chrome.contextMenus.create({"title": lang.get("goTo")+" DemiColor", "contexts":[shcm], "parentId": ddcMenu, "onclick":itemMenuClick});
+			ddcGoMorgoth = chrome.contextMenus.create({"title": lang.get("goTo")+" "+lang.get("hosting"), "contexts":[shcm], "parentId": ddcMenu, "onclick":itemMenuClick});
+			ddcGoDemiYouTube = chrome.contextMenus.create({"title": lang.get("goTo")+" "+lang.get("chanel"), "contexts":[shcm], "parentId": ddcMenu, "onclick":itemMenuClick});
+			chrome.contextMenus.create({"type":  "separator","title": "", "contexts":[shcm], "parentId": ddcMenu});
+			chrome.contextMenus.create({"title": lang.get("contextMenu"), "contexts":[shcm],"type":"checkbox","checked": options.showContext,"parentId":ddcMenu, "onclick":contextShowClick});
+			chrome.contextMenus.create({"title": lang.get("soundAlarm"), "type":"checkbox", "checked": options.audioOn, "contexts":[shcm], "parentId": ddcMenu, "onclick": onSoundChange});
+			chrome.contextMenus.create({"title": lang.get("openTab"), "type":"checkbox", "checked": options.viewTab, "contexts":[shcm], "parentId": ddcMenu, "onclick": onTabChange});
+			chrome.contextMenus.create({"title": lang.get("demiColor"), "type":"checkbox", "checked": options.demiColor, "contexts":[shcm], "parentId": ddcMenu, "onclick": onDemiColorChange});
+			chrome.contextMenus.create({"title": lang.get("refreshFavicon"), "type":"checkbox", "checked": options.favicon, "contexts":[shcm], "parentId": ddcMenu, "onclick": onFavIconChange});
+			
+			chrome.contextMenus.create({"type":"separator","title": "", "contexts":[shcm], "parentId": ddcMenu});
+			var ddcsound = chrome.contextMenus.create({"title": lang.get("changeSound"), "contexts":["browser_action"], "type":"normal", "parentId": ddcMenu}),
+			ddcsoundfile = chrome.contextMenus.create({"title": lang.get("fileSound"), "contexts":["browser_action"], "type":"normal", "parentId": ddcsound}),
+			ddcsoundvolume = chrome.contextMenus.create({"title": lang.get("volumeSound"), "contexts":["browser_action"], "type":"normal", "parentId": ddcsound});
+			for(var i=0;i<soundList.length;++i){
+				chrome.contextMenus.create({"title": soundList[i].name,"id":soundList[i].id, "contexts":["browser_action"], "type":"radio","checked":(options.refreshSoundFile == ('assets/'+soundList[i].id+'.ogg')) ? true : false, "parentId": ddcsoundfile, "onclick":onSoundFileChange});
+			}
+			var l = 0;
+			while(l<1){
+				l += 0.05;
+				l = Number(l.toFixed(3));
+				chrome.contextMenus.create({"title": (Math.round(l*100)+"%"),"id":String(l), "contexts":["browser_action"], "type":"radio","checked":(options.sounVolume == l) ? true : false, "parentId": ddcsoundvolume, "onclick":onSoundVolumeChange});
+			}
+			if(options.showContext){
+				chrome.contextMenus.create({"title": "separator", "contexts":["page"], "parentId": ddcMenu, "type":"separator"});
+				chrome.contextMenus.create({"title": lang.get("settings"), "contexts":["page"], "parentId": ddcMenu, "onclick": function(){chrome.runtime.openOptionsPage();}});
+			}
+		},
+		onAlarm = function(){
+			calarm && clearTimeout(calarm);
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', options.protocolForum + '://demiart.ru/forum/index.php?act=ST&CODE=discuss&_='+(new Date()).getTime());
+			xhr.send('');
+			/* Запустить анимацию иконки */
+			startAnimation();
+			/* Обрабатываем запрос */
+			xhr.onreadystatechange = function() {
+				if (this.readyState != 4) return;
+				
+				/* Остановить анимацию */
+				stopAnimation();
+				if(options.refreshInterval){
+					calarm = setTimeout(onAlarm, options.refreshInterval * 60000);
+				}
+				
+				if (xhr.status != 200) {
+					chrome.browserAction.setBadgeText({text: 'Error'});
+					
+					return;
+				}
+				var response = _helper.unpack(xhr.response) || {count:0,href:options.protocolForum+'://demiart.ru/forum/'},
+					discussCount = parseInt(response.count) || 0;
+				
+				discussURL = response.href.replace(/^https?/, "");
+				
+				if(response.href == '://demiart.ru/forum/'){
+					discussURL = options.urlForum;
+				}
+				/*
+				... Получим дату из заголовка ответа сервера
+				... Для укозания точного текущего года в &copy; Демиарта.
+				*/
+				var resHeader = xhr.getResponseHeader('Date');
+				options.refreshDate = parseInt(resHeader.split(' ')[3]);
+				if (discussCount) {
+					chrome.browserAction.getBadgeText({}, function(result) {
+						result = parseInt(result) || 0;
+						if (result < discussCount && options.audioOn){
+							audio.src = options.refreshSoundFile;
+							audio.volume = options.sounVolume;
+							audio.play();
+						}
+					});
+					var comments = lang.get("comments").replace(/\*ddc\*/, String(discussCount));
+					var commentsmenu = lang.get("commentsmenu").replace(/\*ddc\*/, String(discussCount));
+					chrome.browserAction.setBadgeText({text: String(discussCount)});
+					chrome.browserAction.setTitle({'title':  comments});
+					chrome.contextMenus.update(ddcGoDemiItemMenu, {"title": commentsmenu});
+					
+				}else{
+					chrome.browserAction.setBadgeText({text: ''});
+					chrome.browserAction.setTitle({'title':  lang.get("name")});
+					chrome.contextMenus.update(ddcGoDemiItemMenu, {"title": lang.get('goTo') + " " + lang.get('forum')});
+					
+				}
+				dcc_c = discussCount;
+				dcc_u = options.protocolForum + discussURL;
+				chrome.tabs.query({}, function(tabs) {
+					var dc = 0;
+					for(var i = 0; i<tabs.length;++i){
+						var lt = tabs[i].id,
+							req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
+						if(req.test(tabs[i].url)){
+							++dc;
+							chrome.tabs.sendMessage(lt,{ddc:dcc_c, url:dcc_u, def:options.urlForum, message:'ddc'});
+							if(localStorage['favicon']=="true"){
+								var datauri = drawFavicon(dcc_c);
+								chrome.tabs.sendMessage(lt,{'data':datauri, message:'favicon'});
+							}else{
+								chrome.tabs.sendMessage(lt,{data:"/favicon.ico", message:'favicon'});
+							}
+						}
+					}
+				});
+			}
+		};
+	
+	icon.src = "assets/images/fi.png";
+	ld.src = "assets/images/ld.png";
+	fvi.src = "assets/images/favicon.png";
+	canvas.width = 19;
+	favicon.width = 16;
+	canvas.height = 19;
+	favicon.height = 16;
+	document.body.appendChild(canvas);
+	document.body.appendChild(favicon);
+	audio.volume = options.sounVolume;
+	chrome.browserAction.setBadgeBackgroundColor({color:'#d22d2d'});
+	
+	/*
+	...
+	*/
+	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+		statusTab = changeInfo.status;
+		var req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig,
+			regusr = /(UserCP)/ig,
+			userPage = new RegExp("showuser", "ig"),
+			regex = /(showtopic=(\d+))/ig;
+		if(changeInfo.status=='loading'){
+			if(req.test(tab.url)){
+				if(regex.test(tab.url)){
+					executeMessScripts(tab.id);
+				}
+				if(regusr.test(tab.url)==false){
+					executeScripts(tab.id);
+				}
+				if(userPage.test(tab.url)){
+					//executeMessScripts(tab.id);
+					var usReq = /showuser=(\d+)/,
+						ids = usReq.exec(tab.url);
+					if(ids){
+						setTimeout(function() {
+							chrome.tabs.sendMessage(tab.id, {
+								message: 'showuser',
+								url : options.protocolForum + '://demiart.ru/forum/index.php?act=UserCP&CODE=tdemoney&member_id='+ids[1]
+							});
+						}, 1500);
+					}
+				}
+				if(options.demiColor){
+					executeDccScript(tab.id);
+					setTimeout(function() {
+						chrome.tabs.sendMessage(tab.id,{ddc:dcc_c,url:dcc_u,def:options.protocolForum + options.urlForum, message:'ddc'});
+						if(localStorage['favicon']=="true"){
+							chrome.tabs.sendMessage(tab.id,{data:drawFavicon(dcc_c), message:'favicon'});
+						}else{
+							chrome.tabs.sendMessage(tab.id,{data:"/favicon.ico", message:'favicon'});
+						}
+					}, 1500);
+					stopAnimation();
+					calarm && clearTimeout(calarm);
+					calarm = setTimeout(onAlarm, 2500);
+				}
+			}
+		}
+		req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
+		
+		if(changeInfo.status=='loading' && req.test(tab.url)){
+			
+		}
+	});
+	chrome.commands.onCommand.addListener(function(command) {
+		switch(command){
+			/* Активировать вкладку Demiart
+			* Если её нет - создать с выходом на главную
+			*/
+			case "activate_tab_demi":
+				if(tabDDC!=undefined){
+					chrome.tabs.query({}, function(tabs){
+						var ta = false;
+						for(var i = 0; i<tabs.length; ++i){
+							var tab = tabs[i],
+							req = /(httpS?:\/\/demiart.ru\/forum)/ig;
+							if(tabDDC.id==tab.id && req.test(tab.url)){
+								chrome.tabs.update(tab.id,{selected : true}, tabCreate);
+								ta = true;
+								break;
+							}
+						}
+						if(!ta){
+							chrome.tabs.create({'url': options.protocolForum + options.urlForum, 'active':true}, tabCreate);
+						}
+					})
+				}else{
+					chrome.tabs.create({'url': options.protocolForum + options.urlForum, 'active':true}, tabCreate);
+				}
+				break;
+		}
+	});
+	
+	chrome.browserAction.onClicked.addListener(function(tab) {
+		if(tabDDC!=undefined && localStorage['viewtab']=='true'){
+			chrome.tabs.query({}, function(tabvs){
+				for(var i=0; i<tabvs.length; ++i){
+					var req = /(https?:\/\/demiart.ru\/forum)/ig,
+					td = tabvs[i];
+					if(req.test(td.url) && tabDDC.id==td.id){
+						chrome.tabs.update(tabDDC.id, {'url':options.protocolForum + discussURL, 'active':true}, tabCreate);
+						return;
+						break;
+					}
+				}
+				chrome.tabs.create({'url': options.protocolForum + discussURL, 'active':true}, tabCreate);
+			})
+		}else{
+			chrome.tabs.create({'url': options.protocolForum + discussURL, 'active':true}, tabCreate);
+		}
+	});
+	
+	chrome.tabs.query({}, function(tabs) {
+		for(var i = 0; i<tabs.length;++i){
+			var lt = tabs[i].id,
+				req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
+			if(req.test(tabs[i].url)){
+				executeDccScript(tabs[i].id);
+				setTimeout(function(){chrome.tabs.sendMessage(lt,{data:"/favicon.ico", message:'favicon'});}, 100);
+			}
+		}
+	});
+	
+	contextMenuShow();
+	u.demiColorVer = '1.0.2';
+	u.resetOptions = resetOptions;
+	calarm = setTimeout(function() { onAlarm() }, 1000);
+}());

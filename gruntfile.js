@@ -137,21 +137,30 @@ module.exports = function(grunt) {
 					'<%= globalConfig.dev %>/<%= globalConfig.js %>/libddc.js',
 					'<%= globalConfig.dev %>/<%= globalConfig.js %>/background.js'
 				],
-				dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/background.js'
+				//dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/background.js',
+				dest: '<%= globalConfig.assets %>/<%= globalConfig.js %>/background.js'
 			},
 			option: {
 				src: [
 					'<%= globalConfig.dev %>/<%= globalConfig.js %>/libddc.js',
 					'<%= globalConfig.dev %>/<%= globalConfig.js %>/options.js'
 				],
-				dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/options.js'
+				//dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/options.js',
+				dest: '<%= globalConfig.assets %>/<%= globalConfig.js %>/options.js'
+			},
+			countmsg: {
+				src: [
+					'<%= globalConfig.dev %>/<%= globalConfig.js %>/count-msg.js'
+				],
+				dest: '<%= globalConfig.assets %>/<%= globalConfig.js %>/count-msg.js'
 			},
 			mess: {
 				src: [
 					'<%= globalConfig.bp %>/jquery/dist/jquery.js',
 					'<%= globalConfig.dev %>/<%= globalConfig.js %>/mess.js'
 				],
-				dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/mess.js'
+				//dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/mess.js',
+				dest: '<%= globalConfig.assets %>/<%= globalConfig.js %>/mess.js'
 			},
 			ddc: {
 				src: [
@@ -164,14 +173,16 @@ module.exports = function(grunt) {
 					'<%= globalConfig.bp %>/jquery/dist/jquery.js',
 					'<%= globalConfig.dev %>/<%= globalConfig.js %>/ddc-demicolor.js',
 				],
-				dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/ddc.js'
+				//dest: '<%= globalConfig.dev %>/<%= globalConfig.test %>/ddc.js',
+				dest: '<%= globalConfig.assets %>/<%= globalConfig.js %>/ddc.js'
 			}
 		},
 		uglify: {
 			options: {
 				beautify: false,
-				mangle: true,
-				keep_fnames: true
+				mangle: false,
+				//keep_fnames: true,
+				compress: false
 			},
 			background: {
 				src: '<%= globalConfig.dev %>/<%= globalConfig.test %>/background.js',
@@ -374,5 +385,21 @@ module.exports = function(grunt) {
 			}
 		}
 	});
-	grunt.registerTask('default', 	['imagemin', 'copy', 'htmlmin', 'concat', 'uglify', 'less', 'json-format', 'unicode', 'json_generator:chrome', 'zip:chrome', 'json_generator:opera', 'zip:opera', 'zip:develop']);
+	grunt.registerTask('default',
+		[
+			'imagemin',
+			'copy',
+			'htmlmin',
+			'concat',
+			//'uglify',
+			'less',
+			'json-format',
+			'unicode',
+			'json_generator:chrome',
+			'zip:chrome',
+			'json_generator:opera',
+			'zip:opera',
+			'zip:develop'
+		]
+	);
 }

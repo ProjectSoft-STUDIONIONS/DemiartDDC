@@ -43,10 +43,12 @@
 			case 'showuser':
 				var prof = document.getElementsByClassName('postdetails'),
 					profDiv, profbut, linkMoney, icon, text, cnock;
+				console.log('postdetails', prof);
 				prof.length && (
 						prof[0].getAttribute('data-sendmoney') != 'sendmoney' && (
 						profDiv = prof[0],
-						cnock = document.getElementsByClassName('prof-but')[2],
+						cnock = document.getElementsByClassName('icon-gift')[0].parentNode.parentNode,
+						console.log(cnock),
 						profbut = document.createElement('div'),
 						profbut.className = 'prof-but',
 						linkMoney = document.createElement('a'),
