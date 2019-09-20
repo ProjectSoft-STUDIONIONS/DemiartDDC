@@ -1,0 +1,349 @@
+#DemiColor {
+	&,
+	*,
+	::before,
+	::after {
+		box-sizing: border-box;
+	}
+	.order {
+		&-1 {
+			order: 1;
+		}
+		&-2 {
+			order: 2;
+		}
+		&-3 {
+			order: 3;
+		}
+		&-4 {
+			order: 4;
+		}
+	}
+	.demiColor {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
+	}
+	.ddc {
+		&-wrapp {
+			position: relative;
+			margin: 5px;
+		}
+		&-codes {
+			&-outer {
+				display: flex;
+				flex-direction: column;
+				flex-basis: 50%;
+				justify-content: flex-end;
+				width: 50%;
+				margin-bottom: 10px;
+				&-button {
+					order: 1;
+				}
+				&-result {
+					order: 2;
+				}
+				@media (min-width: 915px) and (max-width: 965px) {
+					width: 100%;
+					flex-basis: 100%;
+					&-button {
+						order: 2;
+						margin-top: 5px;
+					}
+					&-result {
+						order: 1;
+					}
+				}
+				@media (max-width: 786px) {
+					width: 100%;
+					flex-basis: 100%;
+					&-button {
+						order: 2;
+						margin-top: 5px;
+					}
+					&-result {
+						order: 1;
+					}
+				}
+			}
+			&-wrapper {
+				position: relative;
+				z-index: 0;
+				flex: 1 0 auto;
+				width: 100%;
+				margin-bottom: 5px;
+			}
+		}
+		
+		&-code {
+			&-langs {
+				list-style: none;
+				margin: 0;
+				padding: 0px;
+				position: relative;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				padding-left: 8px;
+				padding-right: 16px;
+				@media (min-width: 915px) and (max-width: 965px) {
+					padding-right: 8px;
+				}
+				@media (max-width: 786px) {
+					padding-right: 8px;
+				}
+			}
+		}
+		&-source {
+			&-wrapper {
+				margin-right: 10px;
+			}
+		}
+		&-result {
+			&-wrapper {
+				margin-left: 10px;
+			}
+		}
+		&-source,
+		&-result {
+			&-wrapper {
+				position: relative;
+				background-color: #fff;
+				color: #999;
+				border: 1px solid #fff;
+				height: 302px;
+				border-radius: 8px;
+				overflow: hidden;
+				@media (min-width: 915px) and (max-width: 965px) {
+					margin-left: 0px;
+					margin-right: 0px;
+				}
+				@media (max-width: 786px) {
+					margin-left: 0px;
+					margin-right: 0px;
+				}
+			}
+		}
+		
+		&-result {
+			display: block;
+			outline-style: unset;
+			outline-color: transparent;
+			outline-width: 0;
+			overflow-y: auto;
+			white-space: pre-wrap;
+			word-wrap: break-word;
+			word-break: break-all;
+			height: 100%;
+			padding: 1.5%;
+			font-size: 11px;
+			color: #333;
+			font-family: Verdana,Arial,Helvetica,sans-serif;
+			font-weight: normal;
+			background-color: #fff;
+			background-attachment: scroll;
+			background-position: 50% 50%;
+			background-repeat: no-repeat;
+			background-image: unset;
+			&:empty {
+				background-image: data-uri('img/result.gif');
+			}
+			&-insert {
+				float: right;
+			}
+			&-calc {
+				float: right;
+				margin-right: 5px;
+			}
+		}
+		&-item {
+			&-lang {
+				display: block;
+				margin-right: 1px;
+				flex: 2;
+				text-align: center;
+			}
+		}
+		&-lang {
+			display:block;
+			line-height: 1.3;
+			background-color: #bbb;
+			border: 1px solid #DDD;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+			color: #333;
+			font-size: 10px;
+			font-family: verdana, helvetica, sans-serif;
+			font-weight: bold;
+			padding: 5px;
+			text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 1px;
+			transition: all 0.2s linear 0;
+			text-decoration: none;
+			&.active {
+				background-color: #fff;
+				border-bottom: 1px solid #fff;
+				color: #ff3300;
+			}
+		}
+		&-preview,
+		&-getcode {
+			&-wrapper {
+				flex-basis: 100%;
+				width: 100%;
+				/*position:absolute;
+				cursor:pointer;
+				right:50%;
+				top:0px;
+				width:0px;
+				z-index:20;*/
+			}
+		}
+		&-getcode {
+			&-wrapper {
+				position: relative;
+			}
+		}
+		&-button {
+			&-code {
+				@media (min-width: 915px) and (max-width: 965px) {
+					position: absolute;
+					left: 0px;
+					top: -40px;
+				}
+				@media (max-width: 786px) {
+					position: absolute;
+					left: 0px;
+					top: -40px;
+				}
+				/*position:absolute;
+				cursor:pointer;
+				width:96px;
+				height:25px;
+				white-space:nowrap;
+				z-index:100;
+				top:-6px;
+				right:-48px;*/
+			}
+		}
+		&-preview {
+			&-wrapper {
+				overflow: hidden;
+				background: #5F7169;
+				margin-top: 10px;
+				margin-bottom:15px;
+				border-radius: 5px;
+				border-top: 1px solid #4c5b55;
+				border-right: 1px solid #889991;
+				border-bottom: 1px solid #889991;
+				border-left: 1px solid #4c5b55;
+				@media (min-width: 915px) and (max-width: 965px) {
+					margin-top: 0px;
+				}
+				@media (max-width: 786px) {
+					margin-top: 0px;
+				}
+			}
+		}
+	}
+	.wait{
+		position:absolute;
+		top:0px;
+		left:0px;
+		height:100%;
+		width:100%;
+		background-color:#ffffff;
+		background-position:50% 50%;
+		background-repeat:no-repeat;
+		background-image: data-uri('img/wait.gif');
+		padding:5px;
+		border-radius:5px;
+		display: block;
+		opacity: 0;
+		visibility: hidden;
+		transition: all .3s ease;
+		z-index:-1;
+		&.show {
+			visibility: visible;
+			opacity: 1;
+			z-index: 20;
+		}
+	}
+	.CodeMirror {
+		background-color: #fff;
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-attachment: scroll;
+		background-image: data-uri('../images/source.gif');
+		&.noempty {
+			background-image: unset;
+		}
+		&-scroll {
+			margin-top: 5px !important;
+			margin-bottom: 0px !important;
+			padding-bottom: 0px !important;
+			height: 97% !important;
+			overflow-x: hidden !important;
+		}
+		&-gutters,
+		&-gutter {
+			padding-bottom: 0px !important;
+		}
+	}
+}
+#dzone {
+	border: 1px dashed #fff;
+	&:empty {
+		min-height: 50px;
+		display: flex;
+		width: 100%;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		margin-top: 0px;
+		padding-left: 10px;
+		padding-right: 10px;
+		&::before {
+			content: "";
+			display: block;
+			height: 32px;
+			width: 45px;
+			background-color: transparent;
+			background-position: center left;
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-image: data-uri("img/upload.png");
+			filter: drop-shadow(0px 0px 2px #fff) invert(1);
+		}
+		&::after {
+			content: "Для того, чтобы прекрепить к сообщению\a\dизображение, перетащите его сюда.\a\dРазрешены форматы: jpeg, jpg, gif, png";
+			white-space: pre;
+			display: inline-block;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			line-height: 1.1;
+		}
+	}
+}
+.dropzone {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	position: relative;
+	&::after {
+		content: "";
+		position: absolute;
+		right: 5px;
+		bottom: 10px;
+		color: #fff;
+	}
+	+ #DemiColor {
+		margin-top: 0px !important;
+	}
+}
+[name=Post] {
+	+ [type=submit] {
+		vertical-align: bottom;
+	}
+}

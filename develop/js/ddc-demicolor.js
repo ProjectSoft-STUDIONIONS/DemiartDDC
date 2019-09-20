@@ -75,6 +75,20 @@ window.styleSheetWriter = (
 					'dec': '#CCC',
 					'typ': '#FA0'
 				},
+				'js':		{
+					'str': '#FA0',
+					'kwd': '#9E9',
+					'com': '#008',
+					'lit': '#FF0',
+					'pun': '#CCC',
+					'pln': '#CCC',
+					'tag': '#ADE',
+					'atn': '#ADE',
+					'atv': '#FF0',
+					'dec': '#CCC',
+					'typ': "#0FF",
+					'fun': "#AF0"
+				},
 				'as':			{
 					'str': "#FA0",
 					'kwd': "#9E9",
@@ -93,7 +107,7 @@ window.styleSheetWriter = (
 			langs 	: {
 				html: 			{title: 'HTML', 		scheme: 'default'},
 				css: 			{title: 'CSS', 			scheme: 'default'},
-				js: 			{title: 'JavaScript', 	scheme: 'default'},
+				js: 			{title: 'JavaScript', 	scheme: 'js'},
 				php:			{title: 'PHP', 			scheme: 'default'},
 				sql: 			{title: 'SQL', 			scheme: 'default'},
 				as: 			{title: 'ActionScript', scheme: 'as'},
@@ -105,7 +119,7 @@ window.styleSheetWriter = (
 		getItemsLang = function(lang){
 			var wrapp = $("<div>",
 					{
-						class: "ddc-codes-wrapper"
+						class: "ddc-codes-wrapper ddc-codes-outer-button"
 					}),
 				list = $("<ul>",
 					{
@@ -115,7 +129,7 @@ window.styleSheetWriter = (
 					class: "ddc-result-insert"
 				}).append(
 					$("<input>", {
-						class: "ddc-insert ddc-btn",
+						class: "ddc-insert codebuttons",
 						value: "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044c \u0432 \u043f\u043e\u0441\u0442",
 						type: "button",
 						disabled: "disabled"
@@ -128,7 +142,22 @@ window.styleSheetWriter = (
 						text: "0"
 					})
 				).append(" \u0441\u0438\u043c\u0432.");
-					
+				
+			return wrapp.append(ins).append(calc).append($("<div>", {class: "ddc-clr"}));
+		},
+		getSourceWrapp = function(lang){
+			var list = $("<ul>", {
+					class: "ddc-code-langs"
+				}),
+				container = $("<div>", {
+					class: "ddc-source-wrapper"
+				}).append($("<textarea>", {
+					class: "ddc-source"
+				})),
+				out = $("<div>", {
+					class: "ddc-codes-outer order-1"
+				}).append([list, container]);
+			
 			for(var s in o.langs){
 				var active = s==lang ? ' active' : '';
 				list.append(
@@ -145,43 +174,37 @@ window.styleSheetWriter = (
 					)
 				);
 			};
-			return wrapp.append(list).append(ins).append(calc).append($("<div>", {class: "ddc-clr"}));
+			
+			return out;
 		},
-		getSourceWrapp = function(){
+		getResultWrapp = function(ind, lang){
 			return $("<div>", {
-				class: "ddc-source-wrapper"
-			}).append($("<textarea>", {
-				class: "ddc-source"
-			}));
-		},
-		getResultWrapp = function(ind){
-			return $("<div>", {
-				class: "ddc-result-wrapper"
-			}).append(
-				$("<code>", {
-					id: "ddc-result-"+ind,
-					class: "ddc-result",
-					contenteditable: "false"
-				})
-			).append(
+				class: "ddc-codes-outer order-2"
+			}).append([
+				getItemsLang(lang),
 				$("<div>", {
-					class: "wait"
-				})
-			);
+					class: "ddc-result-wrapper ddc-codes-outer-result"
+				}).append(
+					$("<code>", {
+						id: "ddc-result-"+ind,
+						class: "ddc-result",
+						contenteditable: "false"
+					})
+				).append(
+					$("<div>", {
+						class: "wait"
+					})
+				)
+			]);
 		},
 		getCodeWrapp = function(){
 			return $("<div>", {
-				class: "ddc-getcode-wrapper"
-			}).append(
-				$("<button>", {
-					class: "ddc-button-code ddc-btn",
-					text: "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u043a\u043e\u0434"
-				})
-			);
+				class: "ddc-getcode-wrapper order-3"
+			});
 		},
 		getPrevWrapp = function(lang){
 			return $("<div>", {
-				class: "ddc-preview-wrapper"
+				class: "ddc-preview-wrapper order-4"
 			}).append(
 				$("<div>", {
 					class: "ddc-hide-code closed hide"
@@ -198,7 +221,6 @@ window.styleSheetWriter = (
 					).append("&nbsp;")
 				)
 			).append(
-				//'<code calss="ddc-preview lang-"'+lang+' prettyprint>\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440</code>'
 				$('<code>', {
 					class: "ddc-preview prettyprint lang-"+lang,
 					text: "\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440"
@@ -208,19 +230,17 @@ window.styleSheetWriter = (
 		getTemplate = function (pref, lng, ind){
 			var $ddcSelf = $("<div>", {
 				class: 'demiColor '+pref
-			}).append(
-				getItemsLang(lng)
-			).append(
-				getSourceWrapp()
-			).append(
-				getResultWrapp(ind)
-			).append(
-				$("<div>", {
-					class:"ddc-clr"
-				})
-			).append(
+			})
+			.append(
+				getSourceWrapp(lng)
+			)
+			.append(
+				getResultWrapp(ind, lng)
+			)
+			.append(
 				getCodeWrapp()
-			).append(
+			)
+			.append(
 				getPrevWrapp(lng)
 			);
 			return $ddcSelf;
@@ -232,7 +252,6 @@ window.styleSheetWriter = (
 			for(var s in scheme){
 				window.styleSheetWriter.setRule("."+prefs+" .ddc-preview span."+s, "color", scheme[s]);
 			}
-			//return syleText;
 		};
 		
 		return $(this).each(function(){
@@ -241,6 +260,7 @@ window.styleSheetWriter = (
 			if($(this).data('demiColor')) return $(this);
 			var $codeLang = 'html',
 			rowsCount = 0,
+			interval = 0,
 			ti = index,
 			$stylePrefs = 'ddc-style-'+index,
 			$self = $(this).data('demiCOlor', demiColor).append(
@@ -262,6 +282,7 @@ window.styleSheetWriter = (
 							lineWrapping: true,
 							fixedGutter: false
 			}),
+			$ddcswp		= $($codemirror.display.wrapper),
 			getCode 	= function(){
 				$result.text('');
 				$insertPost.attr('disabled','disabled');
@@ -271,12 +292,10 @@ window.styleSheetWriter = (
 				$preview.html("\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440");
 				var s = $codemirror.doc.getValue();
 				if($.trim(s).length){
-					$wait.fadeIn(500,
-						function(){
 							s = s.replace(/\[color=[^\]]+\]/g, "").replace(/\[\/color]/g, "")
 							.replace(/[\t]/g, "\xA0\xA0\xA0\xA0")
 							.replace(/[<>]/gmi, function (p){return (p == '<') ? '&lt;' : '&gt;'})
-							.replace(/\x0D/g, '<br />');
+							.replace(/\x0D/g, '<br>');
 							rowsCount = 0;
 							$preview.removeClass('prettyprinted').empty().append(s);
 							prettyPrint();
@@ -287,29 +306,16 @@ window.styleSheetWriter = (
 							.replace(/<\/span>/gmi, "[/color]"),
 							//.replace(/\[color=[^\]]+\]\s\[\/color\]/gmi, " "),
 							b = a.match(/<br>/gmi);
+							(b==null||undefined) && (b = a.match(/\r?\n/gm));
 							(b!=null||undefined) && (rowsCount = b.length);
 							$self.find('.ddc-hide-code').addClass((rowsCount>10) ? 'show' : 'hide');
 							a = "[quote=" + o.langs[$codeLang]['title'] + "]\n" + a + $link + "[/quote]";
 							rowsCount > o.maxRow && (a = "[color=yellow]\u041a\u043e\u0434 " +o. langs[$codeLang]['title'] + ":[/color][more]" + a + "[/more]");
 							$result.empty().append(a);
 							$codeLength.text($result.text().length);
-							var range,
-								selection;
-							if (document.body.createTextRange) {
-								range = document.body.createTextRange();
-								range.moveToElementText($result[0]);
-								range.select();
-							} else if (window.getSelection) {
-								selection = window.getSelection();
-								range = document.createRange();
-								range.selectNodeContents($result[0]);
-								selection.removeAllRanges();
-								selection.addRange(range);
-							}
-							$(this).fadeOut(500,function(){$insertPost.removeAttr('disabled');});
-						}
-					);
+							$insertPost.removeAttr('disabled');
 				}
+				$wait.removeClass('show');
 				return !1;
 			},
 			insertResultPost = function() {
@@ -342,16 +348,22 @@ window.styleSheetWriter = (
 			$self.bind('ddcfocus', function(){
 				$codemirror.doc.cm.focus();
 			});
-			//$insertBlock.hide();
+			$codemirror.doc.cm.on('change', function(e, i){
+				$codemirror.doc.lineCount() > 8 ? $ddcswp.addClass('noempty') : $ddcswp.removeClass('noempty');
+				$wait.addClass('show');
+				clearTimeout(interval);
+				interval = setTimeout(getCode, 200);
+			});
 			$self.find('.ddc-hide-code').click(function(){
 				$(this).hasClass('closed') ? ($(this).removeClass('closed').addClass('open').find('span.ddc-wore-code').text('\u0441\u0432\u0435\u0440\u043d\u0443\u0442\u044c'), $preview.css({'max-height':'none'})) : ($(this).removeClass('open').addClass('closed').find('span.ddc-wore-code').text('\u0440\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u044c'),$preview.removeAttr('style'));
 			})
-			$self.find('button.ddc-button-code').click(getCode);
+			//$self.find('button.ddc-button-code').click(getCode);
 			$insertPost.click(insertResultPost);
 			return $self;
 		});
 	};
 }(window.jQuery || window.$));
+
 (function(){
 	var ddcwindow = "DemiColor"
 	if($(document).data('DemiColor') == ddcwindow) return;
@@ -360,6 +372,7 @@ window.styleSheetWriter = (
 	btnDDC = '<span id="ddc-button-demicolor"> <input type="button" value=" '+ddcwindow+' CODE " class="codebuttons '+ddcwindow+' recinput"> </span>',
 	$postComment = $('textarea[name=Post]'),
 	$ddcFrame;
+	$("#dzone").empty();
 	($postComment.length && $getBtn.length && $("#DemiColor").length == 0) && (
 		$getBtn.after(btnDDC),
 		$ddcFrame = $('<div />', {'id':ddcwindow}).css({'border':'border:1px outset #DDD','margin-top':'18px'}),
@@ -380,6 +393,11 @@ window.styleSheetWriter = (
 		$(".chat2.qms").css({
 			"min-width" : "829px"
 		}),
-		setTimeout(function(){$ddcFrame.hide();}, 50)
+		setTimeout(function(){
+			$postComment.css({
+				resize: "vertical"
+			});
+			$ddcFrame.hide();
+		}, 50)
 	);
 }());

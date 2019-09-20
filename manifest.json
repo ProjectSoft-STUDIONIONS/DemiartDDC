@@ -28,7 +28,7 @@
         "128": "assets/images/icon128.png"
     },
     "homepage_url": "https://demiart.ru/forum/index.php?showtopic=231647",
-    "version": "7.0.4",
+    "version": "7.0.5",
     "default_locale": "ru",
     "options_page": "options.html",
     "background": {
