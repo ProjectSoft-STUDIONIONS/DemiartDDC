@@ -1,0 +1,20 @@
+{
+	"folders":
+	[
+		{
+			"name": "Demiart Discussions Count && Demiart Color Code",
+			"path": ".",
+			"file_exclude_patterns": [
+				"*.sublime-project",
+				"*.sublime-workspace",
+				"package.json",
+				"*-lock.json",
+				"bower.json"
+			],
+			"folder_exclude_patterns": [
+				"bower_components",
+				"node_modules"
+			]
+		}
+	]
+}

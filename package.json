@@ -1,19 +1,38 @@
 {
-  "name": "demicolor",
-  "version": "8.0.0",
-  "description": "Расширение браузера - Уведомление о новых ответах для Demiart Forum (DDC)",
-  "main": "Gruntfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC.git"
-  },
-  "author": "ProjectSoft <projectsoft2009@yandex.ru>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC/issues"
-  },
-  "homepage": "https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC#readme"
+	"name": "demiart_ddc",
+	"version": "8.0.0",
+	"description": "Расширение браузера - Уведомление о новых ответах для Demiart Forum (DDC) и DemiColor Code - возможность интегрировать редактор подсветки кода в форму ответа форума",
+	"main": "Gruntfile.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC.git"
+	},
+	"author": "ProjectSoft <projectsoft2009@yandex.ru>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC/issues"
+	},
+	"homepage": "https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC#readme",
+	"devDependencies": {
+		"grunt": "^1.4.1",
+		"grunt-contrib-clean": "^2.0.0",
+		"grunt-contrib-concat": "^2.0.0",
+		"grunt-contrib-copy": "^1.0.0",
+		"grunt-contrib-cssmin": "^4.0.0",
+		"grunt-contrib-less": "^3.0.0",
+		"grunt-contrib-pug": "^3.0.0",
+		"grunt-contrib-requirejs": "^1.0.0",
+		"grunt-contrib-uglify-es": "^3.3.0",
+		"grunt-contrib-watch": "^1.1.0",
+		"grunt-group-css-media-queries": "^1.0.1",
+		"grunt-replace": "^2.0.2",
+		"grunt-ttf2woff2": "^1.0.1",
+		"grunt-webfont": "^1.7.2",
+		"load-grunt-tasks": "^5.1.0",
+		"time-grunt": "^2.0.0",
+		"ttf2woff2": "^4.0.4"
+	}
 }

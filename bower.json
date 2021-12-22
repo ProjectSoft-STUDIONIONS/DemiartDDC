@@ -1,18 +1,22 @@
 {
-  "name": "demicolor",
-  "description": "Расширение браузера - Уведомление о новых ответах для Demiart Forum (DDC)",
-  "main": "Gruntfile.js",
-  "authors": [
-    "ProjectSoft <projectsoft2009@yandex.ru>"
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC#readme",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+	"name": "demiart_ddc",
+	"description": "Расширение браузера - Уведомление о новых ответах для Demiart Forum (DDC) и DemiColor Code - возможность интегрировать редактор подсветки кода в форму ответа форума",
+	"main": "Gruntfile.js",
+	"authors": [
+		"ProjectSoft <projectsoft2009@yandex.ru>"
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC#readme",
+	"private": true,
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"devDependencies": {
+		"jquery": "^3.6.0",
+		"code-prettify": "*"
+	}
 }
