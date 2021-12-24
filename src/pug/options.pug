@@ -1,0 +1,68 @@
+doctype html
+html
+	head
+		title
+			|Demiart Discussion Count - Настройки
+		meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+		base(href="/")
+		link(href="css/options.css?#has#" type="text/css" rel="stylesheet")
+	body
+		.wrapp
+			.header.clearfix
+				h1#nameext.text-center
+					|&nbsp;
+				p.imgext.text-center
+					img(src="/images/logo_demicolor.png" alt="DemiColor Code")
+			.main.clearfix
+				.wrapp_settings
+						.wrapp_options_content
+							.left.text-left
+								p#param-02-title
+							.right.text-right
+								select#interval
+									option(value="0")
+									option(value="0.1666666666666667")
+									option(value="0.5")
+									option(value="1")
+									option(value="5")
+									option(value="30")
+									option(value="60")
+									option(value="1440")
+						.wrapp_options_content
+							.left.text-left
+								p#param-03-title
+							.right.text-right
+								input#audio_checkbox(type="checkbox")
+						.wrapp_options_content
+							.left.text-left
+								p#param-04-title
+							.right.text-right
+								select#sounds
+								|&nbsp;
+								button#playButton.btn-control
+						.wrapp_options_content
+							.left.text-left
+								p#param-05-title
+							#range.right.text-right
+								input#audio_volume(type="range" max="1" min="0" step="0.01")
+						.wrapp_options_content
+							.left.text-left
+								p#param-06-title
+							.right.text-right
+								input#tab_checkbox(type="checkbox")
+						.wrapp_options_content.demicolor
+							.left.text-left
+								img(src="/images/logo_demicolor.png")
+							.right.text-right
+								input#demicolor_checkbox(type="checkbox")
+						.wrapp_options_content.buttons
+							.center
+								button#save.btn(type="button")
+			.footer.clearfix
+				.wrapp_footer
+					p.text-center
+						img(src="images/demicat.png" alt="Деми Кот")
+						br
+						|Demiart.ru © 2000 -  
+						span#year
+		script(type="text/javascript" src="js/options.js?#has#")

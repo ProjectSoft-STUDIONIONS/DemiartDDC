@@ -1,12 +1,9 @@
 {
 	"name" : {
-		"message" : "Demiart Discussion Count (DDC)"
+		"message" : "Demiart Discussion Count (DDC) && DemiColor Code"
 	},
 	"description" : {
-		"message" : "Выдаёт ссылку и количество непрочитанных комментариев в дискуссиях Demiart Forum-a."
-	},
-	"keybord1" : {
-		"message" : "Перейти на вкладку форума"
+		"message" : "Расширение браузера - Уведомление о новых ответах для Demiart Forum (DDC). Выдаёт ссылку и количество непрочитанных комментариев в дискуссиях Demiart Forum-a. DemiColor Code - возможность интегрировать редактор подсветки кода в форму ответа форума"
 	},
 	"settings" : {
 		"message" : "Настройки"
@@ -14,185 +11,139 @@
 	"comments" : {
 		"message" : "У вас есть + *ddc* DDC"
 	},
-	"commentsmenu" : {
-		"message" : "Непрочитанных комментариев + *ddc* "
-	},
 	"refresh" : {
 		"message" : "Обновить"
 	},
 	"forum" : {
-		"message" : "форум"
-	},
-	"goTo" : {
-		"message" : "Перейти на"
+		"message" : "Перейти на форум"
 	},
 	"hosting" : {
 		"message" : "Имиджхостинг"
 	},
-	"chanel" : {
+	"youtube" : {
 		"message" : "Канал YouTube"
 	},
-	"contextMenu" : {
-		"message" : "Контекстное меню"
-	},
-	"soundAlarm" : {
-		"message" : "Звуковое оповещение"
-	},
-	"openTab" : {
-		"message" : "Открывать в той же вкладке"
-	},
-	"demiColor" : {
-		"message" : "DemiColor в форме коментариев"
-	},
-	"refreshFavicon" : {
-		"message" : "Обновлять иконку форума"
-	},
-	"changeSound" : {
-		"message" : "Управление звуком"
-	},
-	"fileSound" : {
-		"message" : "Файл звука"
-	},
-	"volumeSound" : {
-		"message" : "Громкость звука"
-	},
-	"defaulSound" : {
+	"alarm0" : {
 		"message" : "По умолчанию"
 	},
-	"messengerSound" : {
+	"alarm1" : {
 		"message" : "Demi Мессенджер"
 	},
-	"alarmSound" : {
+	"alarm2" : {
 		"message" : "Alarm"
 	},
-	"water1Sound" : {
+	"alarm3" : {
 		"message" : "Вода 1"
 	},
-	"water2Sound" : {
+	"alarm4" : {
 		"message" : "Вода 2"
 	},
-	"water3Sound" : {
+	"alarm5" : {
 		"message" : "Вода 3"
 	},
-	"android1Sound" : {
+	"alarm6" : {
 		"message" : "Андроид 1"
 	},
-	"android2Sound" : {
+	"alarm7" : {
 		"message" : "Андроид 2"
 	},
-	"android3Sound" : {
+	"alarm8" : {
 		"message" : "Андроид 3"
 	},
-	"android4Sound" : {
+	"alarm9" : {
 		"message" : "Андроид 4"
 	},
-	"android5Sound" : {
+	"alarm10" : {
 		"message" : "Андроид 5"
 	},
-	"kickSound" : {
+	"alarm11" : {
 		"message" : "Удар"
 	},
-	"laser1Sound" : {
+	"alarm12" : {
 		"message" : "Лазер 1"
 	},
-	"laser2Sound" : {
+	"alarm13" : {
 		"message" : "Лазер 2"
 	},
-	"sequence1Sound" : {
+	"alarm14" : {
 		"message" : "Секвенция 1"
 	},
-	"sequence2Sound" : {
+	"alarm15" : {
 		"message" : "Секвенция 2"
 	},
-	"sundry1Sound" : {
+	"alarm16" : {
 		"message" : "Разное 1"
 	},
-	"sundry2Sound" : {
+	"alarm17" : {
 		"message" : "Разное 2"
 	},
-	"sundry3Sound" : {
+	"alarm18" : {
 		"message" : "Разное 3"
 	},
-	"sundry4Sound" : {
+	"alarm19" : {
 		"message" : "Разное 4"
 	},
-	"chat1Sound" : {
+	"alarm20" : {
 		"message" : "Звуки чата 1"
 	},
-	"chat2Sound" : {
+	"alarm21" : {
 		"message" : "Звуки чата 2"
 	},
-	"chat3Sound" : {
+	"alarm22" : {
 		"message" : "Звуки чата 3"
 	},
-	"chat4Sound" : {
+	"alarm23" : {
 		"message" : "Звуки чата 4"
 	},
-	"chat5Sound" : {
+	"alarm24" : {
 		"message" : "Звуки чата 5"
 	},
-	"chat6Sound" : {
+	"alarm25" : {
 		"message" : "Звуки чата 6"
 	},
-	"settingtitle01" : {
+	"title01" : {
 		"message" : "Использовать протокол:"
 	},
-	"settingtitle02" : {
+	"title02" : {
 		"message" : "Проверять новые комментарии:"
 	},
-	"settingtitle02_1" : {
+	"option02_0" : {
 		"message" : "0 (не проверять)"
 	},
-	"settingtitle02_2" : {
+	"option02_1" : {
 		"message" : "1 раз в 10 сек"
 	},
-	"settingtitle02_3" : {
+	"option02_2" : {
 		"message" : "1 раз в 30 сек"
 	},
-	"settingtitle02_4" : {
+	"option02_3" : {
 		"message" : "1 раз в минуту"
 	},
-	"settingtitle02_5" : {
+	"option02_4" : {
 		"message" : "1 раз в 5 минут"
 	},
-	"settingtitle02_6" : {
+	"option02_5" : {
 		"message" : "1 раз в 30 минут"
 	},
-	"settingtitle02_7" : {
+	"option02_6" : {
 		"message" : "1 раз в час"
 	},
-	"settingtitle02_8" : {
+	"option02_7" : {
 		"message" : "1 раз в сутки"
 	},
-	"settingtitle03" : {
+	"title03" : {
 		"message" : "Звуковое оповещение при новом комментарии:"
 	},
-	"settingtitle04" : {
+	"title04" : {
 		"message" : "Звук оповещения:"
 	},
-	"settingtitle05" : {
+	"title05" : {
 		"message" : "Громкость звука:"
 	},
-	"settingtitle06" : {
+	"title06" : {
 		"message" : "Открывать в той же вкладке:"
 	},
-	"settingtitle07" : {
+	"title07" : {
 		"message" : "Контекстное меню:"
-	},
-	"settingtitle08" : {
-		"message" : "Обновлять иконку на вкладках форума:"
-	},
-	"settingtitle09" : {
-		"message" : "Основной URL:"
-	},
-	"settingtitle10" : {
-		"message" : "Сохранить настройки"
-	},
-	"settingtitle11" : {
-		"message" : "Спасибо, Ваши настройки сохранены.<br><br>Подождите, сейчас окно настроек будет закрыто..."
-	},
-	"closed" : {
-		"message" : "Или нажмите сюда, если не хотите ждать"
 	}
-	
 }

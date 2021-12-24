@@ -34,5 +34,9 @@
 		"load-grunt-tasks": "^5.1.0",
 		"time-grunt": "^2.0.0",
 		"ttf2woff2": "^4.0.4"
+	},
+	"dependencies": {
+		"grunt-contrib-imagemin": "^4.0.0",
+		"grunt-tinyimg": "^1.0.0"
 	}
 }
