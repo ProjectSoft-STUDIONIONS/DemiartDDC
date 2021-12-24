@@ -1,7 +1,8 @@
 /node_modules/**/*
 /bower_components/**/*
-/temp/**/*
-/temps/**/*
+/addon/**/*
+/test/**/*
+/tests/**/*
 /**/*.zip
 /*.zip
 /*-lock.json
