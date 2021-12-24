@@ -61,9 +61,12 @@
 			OPTIONS.set('TAB_CHECKBOX', TAB_CHECKBOX.checked);
 			OPTIONS.set('DEMICOLOR_CHECKBOX', DEMICOLOR_CHECKBOX.checked);
 			if(INIT) {
+				/**
+				 * Send Message Options
+				 **/
 				chrome.runtime.sendMessage(
 					chrome.i18n.getMessage("@@extension_id"),
-					'REFRRESH',
+					'OPTIONS',
 					{},
 					function(){}
 				);

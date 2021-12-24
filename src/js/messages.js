@@ -3,12 +3,15 @@
 	Element.prototype.appendAfter = function(element) {
 		element.parentNode.insertBefore(this, element.nextSibling);
 	};
-	var protocolLoc = window.location.protocol.replace(/:/gi, "");
-		var obddc = {
+	var protocolLoc = window.location.protocol.replace(/:/gi, ""),
+		ddc = {
+			id: 0,
 			url: 'https://demiart.ru/forum/index.php',
 			def: 'https://demiart.ru/forum/index.php',
-			ddc: 0
+			ddc: 0,
+			favicon: null
 		},
+		linkFav = 'https://demiart.ru/forum/favicon.ico',
 		removeFavicon = function(){
 			var links = document.getElementsByTagName('link');
 			var head = document.getElementsByTagName('head')[0];
@@ -27,57 +30,29 @@
 			link.href = url;
 			document.getElementsByTagName('head')[0].appendChild(link);
 		};
+	setFaviconTag(linkFav);
 	chrome.runtime.onMessage.addListener(function(msg, ob, sendResponse) {
 		switch(msg.message){
 			case 'ddc':
-				obddc.url = msg.url;
-				obddc.def = msg.def;
-				obddc.ddc = msg.ddc;
-				break;
-			case 'favicon':
-				console.table(msg);
-				//setFaviconTag(msg.data);
-				break;
-			case 'showuser':
-				var prof = document.getElementsByClassName('postdetails'),
-					profDiv, profbut, linkMoney, icon, text, cnock;
-				console.log('postdetails', prof);
-				prof.length && (
-						prof[0].getAttribute('data-sendmoney') != 'sendmoney' && (
-						profDiv = prof[0],
-						cnock = document.getElementsByClassName('icon-gift')[0].parentNode.parentNode,
-						console.log(cnock),
-						profbut = document.createElement('div'),
-						profbut.className = 'prof-but',
-						linkMoney = document.createElement('a'),
-						linkMoney.href = msg.url,
-						linkMoney.target = '_blank',
-						linkMoney.className = 'but_view_demi',
-						icon = document.createElement('i'),
-						icon.className = 'icon-vcard prof-but-icon',
-						text = document.createElement('span'),
-						text.className = 'm-none3',
-						text.appendChild(document.createTextNode('Перевести демани')),
-						linkMoney.appendChild(icon),
-						linkMoney.appendChild(text),
-						profbut.appendChild(linkMoney),
-						cnock && profbut.appendAfter(cnock),
-						profDiv.setAttribute('data-sendmoney', 'sendmoney')
-					)
-				);
+				ddc = {
+					id: msg.idtab,
+					url: msg.url,
+					def: msg.def,
+					ddc: msg.ddc,
+					favicon: msg.favicon
+				};
+				ddc.ddc ? setFaviconTag(ddc.favicon) : setFaviconTag(linkFav);
+				//console.table(ddc);
 				break;
 		}
 	});
-	/*var preview = document.getElementById('preview'),
-		setprev = 'setReturn',
-		script = document.createElement('script'),
-		text = document.createTextNode('function qpreview(){return;}');
-	preview && (
-		preview.getAttribute('data-prev') != setprev && (
-			preview.value = "Предпросмотр",
-			script.appendChild(text),
-			document.body.appendChild(script),
-			preview.setAttribute('data-prev', setprev)
-		)
-	);	*/
+	/**
+	 * Set message FETCH
+	 **/
+	chrome.runtime.sendMessage(
+		chrome.i18n.getMessage("@@extension_id"),
+		'FETCH',
+		{},
+		function(){}
+	);
 }());

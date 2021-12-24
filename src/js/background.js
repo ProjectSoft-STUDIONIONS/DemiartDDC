@@ -9,7 +9,14 @@
 		tabDDC = null,
 		DDC = 0,
 		runtimeInterval,
-		responseInterval;
+		responseInterval,
+		favicon = document.createElement('canvas').getContext('2d'),
+		image = document.createElement('img');
+	favicon.canvas.width = 16;
+	favicon.canvas.height = 16;
+	image.width = 16;
+	image.height = 16;
+	image.src = chrome.runtime.getURL("/images/favicon.png");
 	const URL_CONST = "https://demiart.ru/forum/",
 		I_19 = chrome.runtime.getURL("/images/icon19.png"),
 		F_19 = chrome.runtime.getURL("/images/fi.png"),
@@ -30,7 +37,7 @@
 					response.json().then(function(json){
 						json.year = new Date(response.headers.get('date')).getFullYear();
 						OPTIONS.set('YEAR', json.year);
-						console.table(json);
+						//console.table(json);
 						URL = json.href;
 						chrome.browserAction.setIcon({path: I_19});
 						chrome.browserAction.setBadgeText({text: json.count ? String(json.count) : ''});
@@ -73,9 +80,7 @@
 			tabDDC = tab;
 		},
 		executeMessages = function(id){
-			//chrome.tabs.insertCSS(id, {"file":"assets/css/count-msg.css"}, function(){
 			chrome.tabs.executeScript(id, {"file": "/js/messages.js"}, function(){});
-			//});
 		},
 		sendMessages = function(){
 			chrome.tabs.query({}, function(tabs) {
@@ -83,37 +88,62 @@
 					let lt = tabs[i].id,
 						req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
 					if(req.test(tabs[i].url)){
-						chrome.tabs.sendMessage(lt, {ddc: DDC, url: URL, message: 'ddc'});
-						//if(localStorage['favicon']=="true"){
-						//	let datauri = drawFavicon(dcc_c);
-						//	chrome.tabs.sendMessage(lt,{'data':datauri, message:'favicon'});
-						//}else{
-						//	chrome.tabs.sendMessage(lt,{data:"/favicon.ico", message:'favicon'});
-						//}
+						// get favicon and set favicon
+						chrome.tabs.sendMessage(lt, {
+							idtab: lt,
+							ddc: DDC,
+							url: URL,
+							def: URL_CONST,
+							favicon: getFavicon(),
+							message: 'ddc'
+						});
 					}
 				}
 			});
-		}
-		/*,
-		getTabDdc = function(tab){
-			tabDDC = tab;
-			if(tab && TAB_CHECKBOX){
-				let req = /(https?:\/\/demiart.ru\/forum)/ig;
-				if(req.test(tab.url)){
-					// ... Если таб был закрыт.
-					// ... Данная ошибка свойственна только для Yandex браузера.
-					try{
-						chrome.tabs.update(tab.id, {'url': URL, 'active':true}, tabCreate);
-					}catch(e){
-						chrome.tabs.create({'url': URL, 'active':true}, tabCreate);
-					}
-				}else{
-					chrome.tabs.create({'url': URL, 'active':true}, tabCreate);
-				}
-			} else {
-				chrome.tabs.create({'url': URL, 'active':true}, tabCreate);
+		},
+		getFavicon = function(){
+			let c = String(DDC > 99 ? '+99' : DDC) + '';
+			favicon.clearRect(0, 0, 16, 16);
+			favicon.drawImage(image, 0, 0, 16, 16, 0, 0, 16, 16);
+			if(DDC){
+				var pix = window.devicePixelRatio || 1,
+					right = 0,
+					len = c.length-1,
+					width = 7 * pix + (6 * pix * len),
+					height = 9 * pix,
+					top = 16 - height,
+					left = 16 - width - pix,//w - 7,
+					bottom = right = 16 * pix,
+					radius = 2 * pix;
+				favicon.font = 'bold ' + (10 * pix) + 'px arial';
+				favicon.fillStyle = favicon.strokeStyle = "#F03D25";
+				favicon.lineWidth = 1;
+				favicon.beginPath();
+				favicon.moveTo(left + radius, top);
+				favicon.quadraticCurveTo(left, top, left, top + radius);
+				favicon.lineTo(left, bottom - radius);
+				favicon.quadraticCurveTo(left, bottom, left + radius, bottom);
+				favicon.lineTo(right - radius, bottom);
+				favicon.quadraticCurveTo(right, bottom, right, bottom - radius);
+				favicon.lineTo(right, top + radius);
+				favicon.quadraticCurveTo(right, top, right - radius, top);
+				favicon.closePath();
+				favicon.fill();
+				// bottom shadow
+				favicon.beginPath();
+				favicon.strokeStyle = "rgba(0,0,0,0.3)";
+				favicon.moveTo(left + radius / 2.0, bottom);
+				favicon.lineTo(right - radius / 2.0, bottom);
+				favicon.stroke();
+				// label
+				favicon.fillStyle = '#ffffff';
+				favicon.textAlign = "right";
+				favicon.textBaseline = "top";
+				// unfortunately webkit/mozilla are a pixel different in text positioning
+				favicon.fillText((c+''), pix === 2 ? 29 : 15, 6*  pix);
 			}
-		}*/;
+			return favicon.canvas.toDataURL();
+		};
 	/**
 	 * onMessage options
 	 **/
@@ -121,20 +151,30 @@
 		setTimeout(function() {
 			sendResponse({status: true});
 			clearTimeout(runtimeInterval);
-			if(rq == 'REFRRESH'){
-				INTERVAL = OPTIONS.get('INTERVAL', 0.16667, 'number');
-				AUDIO_CHECKBOX = OPTIONS.get('AUDIO_CHECKBOX', true, 'boolean');
-				SOUNDS = OPTIONS.get('SOUNDS', '/sound/alarm0.ogg', 'string');
-				AUDIO_VOLUME = OPTIONS.get('AUDIO_VOLUME', 0.5, 'number');
-				TAB_CHECKBOX = OPTIONS.get('TAB_CHECKBOX', true, 'boolean');
-				DEMICOLOR_CHECKBOX = OPTIONS.get('DEMICOLOR_CHECKBOX', true, 'boolean');
-				runtimeInterval = setTimeout(() => {
-					AUDIO.volume = parseFloat(AUDIO_VOLUME);
-					AUDIO.currentTime = 0;
-					AUDIO.src = chrome.runtime.getURL(SOUNDS);
-				}, 200);
-				clearTimeout(responseInterval);
-				responseInterval = setTimeout(FETCH, INTERVAL);
+			switch(rq){
+				/**
+				 * Get Message Options
+				 **/
+				case 'OPTIONS':
+					INTERVAL = OPTIONS.get('INTERVAL', 0.16667, 'number');
+					AUDIO_CHECKBOX = OPTIONS.get('AUDIO_CHECKBOX', true, 'boolean');
+					SOUNDS = OPTIONS.get('SOUNDS', '/sound/alarm0.ogg', 'string');
+					AUDIO_VOLUME = OPTIONS.get('AUDIO_VOLUME', 0.5, 'number');
+					TAB_CHECKBOX = OPTIONS.get('TAB_CHECKBOX', true, 'boolean');
+					DEMICOLOR_CHECKBOX = OPTIONS.get('DEMICOLOR_CHECKBOX', true, 'boolean');
+					runtimeInterval = setTimeout(() => {
+						AUDIO.volume = parseFloat(AUDIO_VOLUME);
+						AUDIO.currentTime = 0;
+						AUDIO.src = chrome.runtime.getURL(SOUNDS);
+					}, 1);
+					FETCH();
+					break;
+				/**
+				 * FETCH
+				 **/
+				case 'FETCH':
+					FETCH();
+					break;
 			}
 		}, 1);
 		return true;
@@ -172,8 +212,7 @@
 			case "loading":
 				if(req.test(tab.url)){
 					executeMessages(tab.id);
-					clearTimeout(responseInterval);
-					responseInterval = setTimeout(FETCH, INTERVAL);
+					FETCH();
 				}
 				break;
 		}
@@ -191,7 +230,16 @@
 			if(req.test(tabs[i].url)){
 				//executeDccScript(tabs[i].id);
 				executeMessages(tabs[i].id);
-				setTimeout(function(){chrome.tabs.sendMessage(lt,{data: "/favicon.ico", message: 'favicon'});}, 100);
+				setTimeout(function(){
+					chrome.tabs.sendMessage(lt, {
+						idtab: lt,
+						ddc: DDC,
+						url: URL,
+						def: URL_CONST,
+						favicon: getFavicon(),
+						message: 'favicon'
+					});
+				}, 100);
 			}
 		}
 	});
