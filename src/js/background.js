@@ -8,8 +8,9 @@
 		URL = "https://demiart.ru/forum/",
 		tabDDC = null,
 		DDC = 0,
-		runtimeInterval,
-		responseInterval,
+		forumMenu = 0,
+		runtimeInterval = 0,
+		responseInterval = 0,
 		favicon = document.createElement('canvas').getContext('2d'),
 		image = document.createElement('img');
 	favicon.canvas.width = 16;
@@ -17,7 +18,7 @@
 	image.width = 16;
 	image.height = 16;
 	image.src = chrome.runtime.getURL("/images/favicon.png");
-	const URL_CONST = "https://demiart.ru/forum/",
+  const URL_CONST = "https://demiart.ru/forum/",
 		I_19 = chrome.runtime.getURL("/images/icon19.png"),
 		F_19 = chrome.runtime.getURL("/images/fi.png"),
 		EXT_ID = chrome.i18n.getMessage("@@extension_id"),
@@ -37,7 +38,6 @@
 					response.json().then(function(json){
 						json.year = new Date(response.headers.get('date')).getFullYear();
 						OPTIONS.set('YEAR', json.year);
-						//console.table(json);
 						URL = json.href;
 						chrome.browserAction.setIcon({path: I_19});
 						chrome.browserAction.setBadgeText({text: json.count ? String(json.count) : ''});
@@ -76,6 +76,24 @@
 				responseInterval = setTimeout(FETCH, sec * 60000);
 			}
 		},
+		GO_FORUM = function(){
+			if(tabDDC!=undefined && TAB_CHECKBOX){
+				chrome.tabs.query({}, function(tabvs){
+					for(var i=0; i<tabvs.length; ++i){
+						var req = /^(https?:\/\/demiart.ru\/forum)/ig,
+						td = tabvs[i];
+						if(req.test(td.url) && tabDDC.id == td.id){
+							chrome.tabs.update(tabDDC.id, {'url': URL, 'active':true}, tabCreate);
+							return;
+							break;
+						}
+					}
+					chrome.tabs.create({'url': URL, 'active':true}, tabCreate);
+				})
+			}else{
+				chrome.tabs.create({'url': URL, 'active':true}, tabCreate);
+			}
+		},
 		tabCreate = function(tab){
 			tabDDC = tab;
 		},
@@ -95,10 +113,14 @@
 							url: URL,
 							def: URL_CONST,
 							favicon: getFavicon(),
-							message: 'ddc'
+							message: 'ddc',
+							demicolor: DEMICOLOR_CHECKBOX,
 						});
 					}
 				}
+			});
+			forumMenu && chrome.contextMenus.update(forumMenu, {
+			    title: DDC <= 0 ? chrome.i18n.getMessage('forum') : chrome.i18n.getMessage('comments').replace('*ddc*', DDC)
 			});
 		},
 		getFavicon = function(){
@@ -115,7 +137,7 @@
 					left = 16 - width - pix,//w - 7,
 					bottom = right = 16 * pix,
 					radius = 2 * pix;
-				favicon.font = 'bold ' + (10 * pix) + 'px arial';
+				favicon.font = 'bold ' + (8 * pix) + 'px arial';
 				favicon.fillStyle = favicon.strokeStyle = "#F03D25";
 				favicon.lineWidth = 1;
 				favicon.beginPath();
@@ -143,7 +165,70 @@
 				favicon.fillText((c+''), pix === 2 ? 29 : 15, 6*  pix);
 			}
 			return favicon.canvas.toDataURL();
+		},
+		contextMenuShow = function(){
+			ddcMenu = chrome.contextMenus.create({
+				"title": "Demiart DDC",
+				"contexts": ["all"]
+			});
+			forumMenu = chrome.contextMenus.create({
+				"title": chrome.i18n.getMessage('forum'),
+				"contexts":["all"],
+				"parentId": ddcMenu,
+				"onclick": GO_FORUM
+			});
+			chrome.contextMenus.create({
+				"title": chrome.i18n.getMessage('hosting'),
+				"contexts":["all"],
+				"parentId": ddcMenu,
+				"onclick": function(){
+					chrome.tabs.create({'url': 'https://morgoth.ru/', 'active':true}, function(tab){});
+				}
+			});
+			chrome.contextMenus.create({
+				"title": chrome.i18n.getMessage('youtube'),
+				"contexts":["all"],
+				"parentId": ddcMenu,
+				"onclick": function(){
+					chrome.tabs.create({'url': 'https://www.youtube.com/c/demiartru', 'active':true}, function(tab){});
+				}
+			});
+			chrome.contextMenus.create({
+				"title": chrome.i18n.getMessage('demicolor'),
+				"contexts":["all"],
+				"parentId": ddcMenu,
+				"onclick": function(){
+					chrome.tabs.create({'url': 'https://demicolor.demiart.ru/', 'active':true}, function(tab){});
+				}
+			});
+			chrome.contextMenus.create({
+				"title": "",
+				"contexts":["all"],
+				"parentId": ddcMenu,
+				"type":"separator"
+			});
+			chrome.contextMenus.create({
+				"title": chrome.i18n.getMessage("refresh"),
+				"contexts":["all"],
+				"parentId": ddcMenu,
+				"onclick": FETCH
+			});
+			chrome.contextMenus.create({
+				"title": "",
+				"contexts":["all"],
+				"parentId": ddcMenu,
+				"type":"separator"
+			});
+			chrome.contextMenus.create({
+				"title": chrome.i18n.getMessage("settings"),
+				"contexts":["all"],
+				"parentId": ddcMenu,
+				"onclick": function(){
+					chrome.runtime.openOptionsPage();
+				}
+			});
 		};
+
 	/**
 	 * onMessage options
 	 **/
@@ -151,7 +236,7 @@
 		setTimeout(function() {
 			sendResponse({status: true});
 			clearTimeout(runtimeInterval);
-			switch(rq){
+			switch(rq.message){
 				/**
 				 * Get Message Options
 				 **/
@@ -168,6 +253,20 @@
 						AUDIO.src = chrome.runtime.getURL(SOUNDS);
 					}, 1);
 					FETCH();
+					chrome.tabs.query({}, function(tabs) {
+						for(let i = 0; i<tabs.length;++i){
+							let lt = tabs[i].id,
+								req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
+							if(req.test(tabs[i].url)){
+								setTimeout(function(){
+									chrome.tabs.sendMessage(lt, {
+										demicolor: DEMICOLOR_CHECKBOX,
+										message: 'demicolor'
+									});
+								}, 100);
+							}
+						}
+					});
 					break;
 				/**
 				 * FETCH
@@ -183,22 +282,7 @@
 	 * Click Icon Extension
 	 **/
 	chrome.browserAction.onClicked.addListener(function(tab) {
-		if(tabDDC!=undefined && TAB_CHECKBOX){
-			chrome.tabs.query({}, function(tabvs){
-				for(var i=0; i<tabvs.length; ++i){
-					var req = /^(https?:\/\/demiart.ru\/forum)/ig,
-					td = tabvs[i];
-					if(req.test(td.url) && tabDDC.id == td.id){
-						chrome.tabs.update(tabDDC.id, {'url': URL, 'active':true}, tabCreate);
-						return;
-						break;
-					}
-				}
-				chrome.tabs.create({'url': URL, 'active':true}, tabCreate);
-			})
-		}else{
-			chrome.tabs.create({'url': URL, 'active':true}, tabCreate);
-		}
+		GO_FORUM();
 	});
 	/**
 	 * Updated (loading) tabs
@@ -233,11 +317,12 @@
 				setTimeout(function(){
 					chrome.tabs.sendMessage(lt, {
 						idtab: lt,
-						ddc: DDC,
 						url: URL,
 						def: URL_CONST,
+						ddc: DDC,
 						favicon: getFavicon(),
-						message: 'favicon'
+						demicolor: DEMICOLOR_CHECKBOX,
+						message: 'ddc'
 					});
 				}, 100);
 			}
@@ -253,4 +338,5 @@
 	AUDIO.preload = "none";
 	AUDIO.src = chrome.runtime.getURL(SOUNDS);
 	FETCH();
+	contextMenuShow();
 }(chrome, document, window));

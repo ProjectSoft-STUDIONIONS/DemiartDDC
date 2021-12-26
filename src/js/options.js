@@ -66,7 +66,15 @@
 				 **/
 				chrome.runtime.sendMessage(
 					chrome.i18n.getMessage("@@extension_id"),
-					'OPTIONS',
+					{
+						message: 'OPTIONS',
+						interval: parseFloat(INTERVAL.value),
+						audiocheck: AUDIO_CHECKBOX.checked,
+						sounds: SOUNDS.value,
+						volume: parseFloat(AUDIO_VOLUME.value),
+						tab: TAB_CHECKBOX.checked,
+						demicolor: DEMICOLOR_CHECKBOX.checked 
+					},
 					{},
 					function(){}
 				);

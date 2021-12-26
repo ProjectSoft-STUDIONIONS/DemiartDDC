@@ -18,10 +18,13 @@
 		"message" : "Перейти на форум"
 	},
 	"hosting" : {
-		"message" : "Имиджхостинг"
+		"message" : "Перейти на Morgoth - хостинг изображений Demiart"
+	},
+	"demicolor" : {
+		"message" : "Перейти на DemiColor Code Demiart"
 	},
 	"youtube" : {
-		"message" : "Канал YouTube"
+		"message" : "Перейти на Канал YouTube"
 	},
 	"alarm0" : {
 		"message" : "По умолчанию"

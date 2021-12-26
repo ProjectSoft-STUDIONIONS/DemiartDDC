@@ -18,6 +18,7 @@
   "devDependencies": {
     "jquery": "^3.6.0",
     "code-prettify": "*",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "codemirror": "^5.65.0"
   }
 }

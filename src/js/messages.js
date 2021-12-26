@@ -3,8 +3,7 @@
 	Element.prototype.appendAfter = function(element) {
 		element.parentNode.insertBefore(this, element.nextSibling);
 	};
-	var protocolLoc = window.location.protocol.replace(/:/gi, ""),
-		ddc = {
+	var ddc = {
 			id: 0,
 			url: 'https://demiart.ru/forum/index.php',
 			def: 'https://demiart.ru/forum/index.php',
@@ -29,8 +28,8 @@
 			link.rel = 'shortcut Icon';
 			link.href = url;
 			document.getElementsByTagName('head')[0].appendChild(link);
-		};
-	setFaviconTag(linkFav);
+		},
+		DEMICOLOR_CHECKBOX = false;
 	chrome.runtime.onMessage.addListener(function(msg, ob, sendResponse) {
 		switch(msg.message){
 			case 'ddc':
@@ -39,10 +38,18 @@
 					url: msg.url,
 					def: msg.def,
 					ddc: msg.ddc,
-					favicon: msg.favicon
+					favicon: msg.favicon,
+					demicolor: msg.demicolor
 				};
 				ddc.ddc ? setFaviconTag(ddc.favicon) : setFaviconTag(linkFav);
-				//console.table(ddc);
+				if(DEMICOLOR_CHECKBOX != msg.demicolor){
+					if(msg.demicolor){
+						console.log('add demicolor');
+					}else{
+						console.log('remove demicolor');
+					}
+				}
+				DEMICOLOR_CHECKBOX = msg.demicolor;
 				break;
 		}
 	});
@@ -51,8 +58,15 @@
 	 **/
 	chrome.runtime.sendMessage(
 		chrome.i18n.getMessage("@@extension_id"),
-		'FETCH',
+		{
+			message: 'FETCH'
+		},
 		{},
 		function(){}
 	);
+	/**
+	 * Set Favicon
+	 **/
+	setFaviconTag(linkFav);
+	console.log('get demicolor', DEMICOLOR_CHECKBOX);
 }());

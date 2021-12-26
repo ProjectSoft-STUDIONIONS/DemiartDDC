@@ -149,6 +149,7 @@ module.exports = function(grunt) {
 						'src/js/options.js'
 					],
 					'addon/js/messages.js': [
+						'src/js/lib.js',
 						'src/js/messages.js'
 					],
 				},
