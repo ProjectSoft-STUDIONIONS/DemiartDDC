@@ -1,5 +1,5 @@
 # DemiartDDC && DemiColor Code
-
+[Release v8.0.0](https://github.com/ProjectSoft-STUDIONIONS/DemiartDDC/releases/tag/v8.0.0)
 ## Описание
 Это расширение для браузера Google Chrome позволяет мгновенно узнавать о количество новых комментариев в дискуссиях [Демиарт-форума](http://demiart.ru/forum/index.php?) и сразу к ним переходить. Вы можете находиться на любой вкладке, достаточно просто кликнуть по иконке расширения.
 
