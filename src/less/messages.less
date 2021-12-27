@@ -274,6 +274,11 @@
 				@import "lang-as.less";
 				@import "lang-py.less";
 			}
+			&:empty {
+				&::before {
+					content: "Предпросмотр";
+				}
+			}
 		}
 	}
 	.wait{
@@ -343,7 +348,7 @@
 			background-position: center left;
 			background-repeat: no-repeat;
 			background-size: contain;
-			background-image: data-uri("img/dzone.png");
+			background-image: data-uri("data-uri/dzone.png");
 			filter: drop-shadow(0px 0px 2px #fff) invert(1);
 		}
 		&::after {
