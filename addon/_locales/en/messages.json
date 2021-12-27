@@ -1,0 +1,152 @@
+{
+	"name" : {
+		"message" : "Demiart Discussion Count (DDC) && DemiColor Code"
+	},
+	"description" : {
+		"message" : "Расширение браузера - Уведомление о новых ответах для Demiart Forum (DDC). Выдаёт ссылку и количество непрочитанных комментариев в дискуссиях Demiart Forum-a. DemiColor Code - возможность интегрировать редактор подсветки кода в форму ответа форума"
+	},
+	"settings" : {
+		"message" : "Настройки"
+	},
+	"comments" : {
+		"message" : "У вас есть + *ddc* DDC"
+	},
+	"refresh" : {
+		"message" : "Обновить"
+	},
+	"forum" : {
+		"message" : "Перейти на форум"
+	},
+	"hosting" : {
+		"message" : "Перейти на Morgoth - хостинг изображений Demiart"
+	},
+	"demicolor" : {
+		"message" : "Перейти на DemiColor Code Demiart"
+	},
+	"youtube" : {
+		"message" : "Перейти на Канал YouTube"
+	},
+	"alarm0" : {
+		"message" : "По умолчанию"
+	},
+	"alarm1" : {
+		"message" : "Demi Мессенджер"
+	},
+	"alarm2" : {
+		"message" : "Alarm"
+	},
+	"alarm3" : {
+		"message" : "Вода 1"
+	},
+	"alarm4" : {
+		"message" : "Вода 2"
+	},
+	"alarm5" : {
+		"message" : "Вода 3"
+	},
+	"alarm6" : {
+		"message" : "Андроид 1"
+	},
+	"alarm7" : {
+		"message" : "Андроид 2"
+	},
+	"alarm8" : {
+		"message" : "Андроид 3"
+	},
+	"alarm9" : {
+		"message" : "Андроид 4"
+	},
+	"alarm10" : {
+		"message" : "Андроид 5"
+	},
+	"alarm11" : {
+		"message" : "Удар"
+	},
+	"alarm12" : {
+		"message" : "Лазер 1"
+	},
+	"alarm13" : {
+		"message" : "Лазер 2"
+	},
+	"alarm14" : {
+		"message" : "Секвенция 1"
+	},
+	"alarm15" : {
+		"message" : "Секвенция 2"
+	},
+	"alarm16" : {
+		"message" : "Разное 1"
+	},
+	"alarm17" : {
+		"message" : "Разное 2"
+	},
+	"alarm18" : {
+		"message" : "Разное 3"
+	},
+	"alarm19" : {
+		"message" : "Разное 4"
+	},
+	"alarm20" : {
+		"message" : "Звуки чата 1"
+	},
+	"alarm21" : {
+		"message" : "Звуки чата 2"
+	},
+	"alarm22" : {
+		"message" : "Звуки чата 3"
+	},
+	"alarm23" : {
+		"message" : "Звуки чата 4"
+	},
+	"alarm24" : {
+		"message" : "Звуки чата 5"
+	},
+	"alarm25" : {
+		"message" : "Звуки чата 6"
+	},
+	"title01" : {
+		"message" : "Использовать протокол:"
+	},
+	"title02" : {
+		"message" : "Проверять новые комментарии:"
+	},
+	"option02_0" : {
+		"message" : "0 (не проверять)"
+	},
+	"option02_1" : {
+		"message" : "1 раз в 10 сек"
+	},
+	"option02_2" : {
+		"message" : "1 раз в 30 сек"
+	},
+	"option02_3" : {
+		"message" : "1 раз в минуту"
+	},
+	"option02_4" : {
+		"message" : "1 раз в 5 минут"
+	},
+	"option02_5" : {
+		"message" : "1 раз в 30 минут"
+	},
+	"option02_6" : {
+		"message" : "1 раз в час"
+	},
+	"option02_7" : {
+		"message" : "1 раз в сутки"
+	},
+	"title03" : {
+		"message" : "Звуковое оповещение при новом комментарии:"
+	},
+	"title04" : {
+		"message" : "Звук оповещения:"
+	},
+	"title05" : {
+		"message" : "Громкость звука:"
+	},
+	"title06" : {
+		"message" : "Открывать в той же вкладке:"
+	},
+	"title07" : {
+		"message" : "Контекстное меню:"
+	}
+}

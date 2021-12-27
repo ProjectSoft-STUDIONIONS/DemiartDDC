@@ -1,0 +1,39 @@
+{
+	"manifest_version": 2,
+	"name": "Demiart Discussion Count (DDC) && DemiColor Code",
+	"description": "Расширение браузера - Уведомление о новых ответах для Demiart Forum (DDC). Выдаёт ссылку и количество непрочитанных комментариев в дискуссиях Demiart Forum-a. DemiColor Code - возможность интегрировать редактор подсветки кода в форму ответа форума",
+	"author": "ProjectSoft",
+	"developer": {
+		"email": "projectsoft2009@yandex.ru",
+		"name": "ProjectSoft"
+	},
+	"homepage_url": "https://demiart.ru/forum/index.php?showtopic=231647",
+	"default_locale": "ru",
+	"current_locale": "ru",
+	"permissions": [
+		"*://demiart.ru/forum/*",
+		"tabs",
+		"contextMenus"
+	],
+	"externally_connectable": {
+		"ids": ["*"]
+	},
+	"icons": {
+		"48": "images/icon48.png",
+		"128": "images/icon128.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"19": "images/icon19.png",
+			"38": "images/icon38.png"
+		},
+		"default_title": "Demiart Discussion Count (DDC) && DemiColor Code"
+	},
+	"background": {
+		"scripts": [
+			"js/background.js"
+		]
+	},
+	"options_page": "options.html",
+	"version": "8.0.0"
+}

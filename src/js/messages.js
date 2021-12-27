@@ -1,8 +1,5 @@
 (function(){
 	"use strict";
-	Element.prototype.appendAfter = function(element) {
-		element.parentNode.insertBefore(this, element.nextSibling);
-	};
 	var ddc = {
 			id: 0,
 			url: 'https://demiart.ru/forum/index.php',
@@ -29,7 +26,11 @@
 			link.href = url;
 			document.getElementsByTagName('head')[0].appendChild(link);
 		},
-		DEMICOLOR_CHECKBOX = false;
+		DEMICOLOR_CHECKBOX = false,
+		demiColor = new DemiColor();
+	demiColor.remove(true);
+	let dzone = document.getElementById('dzone');
+	if(dzone) dzone.innerHTML = '';
 	chrome.runtime.onMessage.addListener(function(msg, ob, sendResponse) {
 		switch(msg.message){
 			case 'ddc':
@@ -44,9 +45,9 @@
 				ddc.ddc ? setFaviconTag(ddc.favicon) : setFaviconTag(linkFav);
 				if(DEMICOLOR_CHECKBOX != msg.demicolor){
 					if(msg.demicolor){
-						console.log('add demicolor');
+						demiColor.add();
 					}else{
-						console.log('remove demicolor');
+						demiColor.remove();
 					}
 				}
 				DEMICOLOR_CHECKBOX = msg.demicolor;

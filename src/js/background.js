@@ -98,6 +98,7 @@
 			tabDDC = tab;
 		},
 		executeMessages = function(id){
+			chrome.tabs.insertCSS(id, {"file": "/css/messages.css"}, function(){});
 			chrome.tabs.executeScript(id, {"file": "/js/messages.js"}, function(){});
 		},
 		sendMessages = function(){

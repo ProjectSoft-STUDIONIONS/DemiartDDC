@@ -55,7 +55,8 @@ module.exports = function(grunt) {
 					ieCompat: false
 				},
 				files: {
-					'test/css/main.css': 'src/less/main.less'
+					'test/css/main.css': 'src/less/main.less',
+					'test/css/messages.css': 'src/less/messages.less'
 				}
 			}
 		},
@@ -63,7 +64,8 @@ module.exports = function(grunt) {
 			group: {
 				files: {
 					'test/css/media/options.css': 'test/css/options.css',
-					'test/css/media/main.css': 'test/css/main.css'
+					'test/css/media/main.css': 'test/css/main.css',
+					'test/css/media/messages.css': 'test/css/messages.css'
 				}
 			}
 		},
@@ -79,7 +81,8 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'test/css/replace/options.css': 'test/css/media/options.css',
-					'test/css/replace/main.css': 'test/css/media/main.css'
+					'test/css/replace/main.css': 'test/css/media/main.css',
+					'test/css/replace/messages.css': 'test/css/media/messages.css'
 				}
 			},
 			html: {
@@ -104,7 +107,11 @@ module.exports = function(grunt) {
 			minify: {
 				files: {
 					'addon/css/options.css': 'test/css/replace/options.css',
-					'addon/css/main.css': 'test/css/replace/main.css'
+					'addon/css/main.css': 'test/css/replace/main.css',
+					'addon/css/messages.css': [
+						'test/css/replace/messages.css',
+						'bower_components/codemirror/lib/codemirror.css'
+					]
 				}
 			}
 		},
@@ -137,9 +144,6 @@ module.exports = function(grunt) {
 			},
 			main: {
 				files: {
-					'addon/js/jquery.js': [
-						'test/js/jquery.js'
-					],
 					'addon/js/background.js': [
 						'src/js/lib.js',
 						'src/js/background.js'
@@ -149,7 +153,13 @@ module.exports = function(grunt) {
 						'src/js/options.js'
 					],
 					'addon/js/messages.js': [
-						'src/js/lib.js',
+						'bower_components/codemirror/lib/codemirror.js',
+						'bower_components/code-prettify/src/prettify.js',
+						'bower_components/code-prettify/src/lang-ml.js',
+						'bower_components/code-prettify/src/lang-css.js',
+						'bower_components/code-prettify/src/lang-sql.js',
+						'src/js/lang-as.js',
+						'src/js/parser.js',
 						'src/js/messages.js'
 					],
 				},
@@ -183,20 +193,10 @@ module.exports = function(grunt) {
 			},
 			favicon: {
 				files: {
-					'addon/favicon.ico': ['src/images/favicon.ico']
+					'addon/favicon.ico': ['src/images/favicon.ico'],
+					'addon/manifest.json': ['src/manifest.json']
 				}
 			},
-			/*sound: {
-				files: [
-					{
-						expand: true,
-						flatten : true,
-						src: ['<%= globalConfig.dev %>/<%= globalConfig.sound %>/*.ogg'],
-						dest: '<%= globalConfig.assets %>/<%= globalConfig.sound %>/',
-						filter : 'isFile'
-					}
-				]
-			}*/
 		},
 	});
 	grunt.registerTask('default',
