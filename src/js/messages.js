@@ -69,5 +69,5 @@
 	 * Set Favicon
 	 **/
 	setFaviconTag(linkFav);
-	console.log('get demicolor', DEMICOLOR_CHECKBOX);
+	console.log('%c Demiart DDC && DemiartColor Code ','background:#4C5D55;color:#e7aa11;font-size:40px;');
 }());

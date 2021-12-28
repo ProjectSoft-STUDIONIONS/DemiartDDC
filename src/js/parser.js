@@ -9,12 +9,12 @@ const DemiColor = function(){
 		'kwd': '#9E9',
 		'com': '#008',
 		'lit': '#FF0',
-		'pun': '#CCC',
-		'pln': '#CCC',
+		'pun': '#CCC',// не изменять. Это обычный текст.
+		'pln': '#CCC',// не изменять. Это обычный текст.
 		'tag': '#ADE',
 		'atn': '#ADE',
 		'atv': '#FF0',
-		'dec': '#CCC',
+		'dec': '#CCC',// не изменять. Это обычный текст.
 		'typ': '#FA0'
 	};
 	this.version = '3.0.0';
@@ -59,7 +59,7 @@ const DemiColor = function(){
 				<div class="ddc-result-insert">
 					<input class="ddc-insert codebuttons" value="Вставить в пост" type="button" disabled="disabled">
 				</div>
-				<div class="ddc-result-calc">Длина: <span>0</span> симв.</div>
+				<div class="ddc-result-calc">Длина: <span id="ddc-count">0</span> симв.</div>
 			</div>
 			<div class="ddc-result-wrapper ddc-codes-outer-result">
 				<code id="ddc-result-1" class="ddc-result" contenteditable="false"></code>
@@ -76,6 +76,7 @@ DemiColor.prototype.add = function(){
 	if(!self.status && !self.post){
 		self.post = document.getElementsByName('Post')[0];
 		if(self.post){
+			let scroll = document.scrollingElement.scrollTop;
 			self.btn = document.createElement('input');
 			self.btndiv = document.createElement('div');
 			self.btndiv.id = 'DemiColor_BTN'
@@ -93,13 +94,15 @@ DemiColor.prototype.add = function(){
 
 			self.codeDiv = self.tplDiv.cloneNode(true);
 			self.post.closest('td').append(self.codeDiv);
-			self.insert = self.codeDiv.getElementsByClassName('ddc-insert')[0];
+
 			self.editor = CodeMirror.fromTextArea(self.codeDiv.getElementsByClassName('ddc-source')[0], {
 				lineNumbers: true,
 				mode: "text/plain",
 				matchBrackets: true,
 				indentWithTabs: true
 			});
+			self.insert = self.codeDiv.getElementsByClassName('ddc-insert')[0];
+			self.lenCount = document.getElementById('ddc-count');
 
 			self.result = document.getElementById('ddc-result-1');
 			self.preview = self.codeDiv.getElementsByClassName('ddc-preview')[0];
@@ -114,9 +117,9 @@ DemiColor.prototype.add = function(){
 			});
 			self.insert.addEventListener('click', function(e){
 				e.preventDefault();
-				if(self.result.textContent.length){
+				if(self.result.innerText.length){
 					let post = self.post,
-						text = self.result.textContent,
+						text = self.result.innerText,
 						postLen = post.textLength,
 						scrollTop = post.scrollTop,
 						postSelStart = post.selectionStart,
@@ -124,12 +127,22 @@ DemiColor.prototype.add = function(){
 						textSelStart = post.value.substring(0, postSelStart),
 						textSelEnd = post.value.substring(postSelStart, postSelEnd);
 					postVal = post.value.substring(postSelEnd, postLen);
-					postSelStart != postSelEnd ? (textSelEnd = text + textSelEnd, post.value = textSelStart + textSelEnd + postVal, post.selectionStart = postSelStart, post.selectionEnd = postSelStart + textSelEnd.length) : (post.value = textSelStart + text + postVal, postSelStart += text.length, post.selectionStart = postSelStart, post.selectionEnd = postSelStart);
+					postSelStart != postSelEnd ? (
+						textSelEnd = text + textSelEnd,
+						post.value = textSelStart + textSelEnd + postVal,
+						post.selectionStart = postSelStart,
+						post.selectionEnd = postSelStart + textSelEnd.length
+					) : (
+						post.value = textSelStart + text + postVal,
+						postSelStart += text.length,
+						post.selectionStart = postSelStart,
+						post.selectionEnd = postSelStart
+					);
 					post.scrollTop = scrollTop;
 					post.focus();
 				}
 				return !1;
-			})
+			});
 			self.btnLang = self.codeDiv.getElementsByClassName('ddc-lang');
 			Array.from(self.btnLang).forEach(btn => {
 				btn.addEventListener('click', function(e){
@@ -147,7 +160,13 @@ DemiColor.prototype.add = function(){
 					return !1;
 				});
 			});
-			setTimeout(()=>{self.codeDiv.classList.add('hidden')}, 10);
+			self.lenCount.textContent = "0";
+			setTimeout(()=>{
+				self.codeDiv.classList.add('hidden');
+				setTimeout(()=>{
+					document.scrollingElement.scrollTop = scroll;
+				}, 100);
+			}, 1);
 		}
 	}
 	self.status = true;
@@ -201,5 +220,6 @@ DemiColor.prototype.parse = function(){
 			self.result.innerHTML = self.preview.innerHTML = '';
 			self.insert.setAttribute('disabled', 'disabled');
 		}
+		self.lenCount.textContent = str.length;
 	}
 }

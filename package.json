@@ -1,6 +1,6 @@
 {
 	"name": "demiart_ddc",
-	"version": "8.0.0",
+	"version": "8.0.1",
 	"description": "Расширение браузера - Уведомление о новых ответах для Demiart Forum (DDC) и DemiColor Code - возможность интегрировать редактор подсветки кода в форму ответа форума",
 	"main": "Gruntfile.js",
 	"scripts": {

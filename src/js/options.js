@@ -103,6 +103,7 @@
 	DEMICOLOR_CHECKBOX = document.getElementById('demicolor_checkbox'),
 	SAVE = document.getElementById('save'),
 	YEAR = document.getElementById('year');
+	
 	AUDIO.controls = false;
 	AUDIO.style.display = "none";
 	AUDIO.crossOrigin="anonymous";
@@ -167,4 +168,5 @@
 		AUDIO.play();
 	});
 	READ_SETTINGS();
+	console.log('%c Demiart DDC && DemiartColor Code ','background:#4C5D55;color:#e7aa11;font-size:40px;');
 }(document, window));
