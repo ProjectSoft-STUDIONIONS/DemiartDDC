@@ -23,18 +23,31 @@
 		F_19 = chrome.runtime.getURL("/images/fi.png"),
 		EXT_ID = chrome.i18n.getMessage("@@extension_id"),
 		AUDIO = new Audio(),
+		/**
+		 * Слушатель, который определяет подключение, отключение от интернета
+		 * При изменении состояния - запрос
+		 **/
 		ON_OFF = function(e){
 			clearTimeout(responseInterval);
 			responseInterval = setTimeout(FETCH, 100);
 		},
+		/**
+		 * Сам запрос
+		 **/
 		FETCH = async function(){
 			let winStatus = window.navigator.onLine;
 			clearTimeout(responseInterval);
 			chrome.browserAction.setIcon({path: I_19});
+			/**
+			 * Если задан INTERVAL и подключен к Интернет 
+			 **/
 			if(INTERVAL && winStatus){
 				chrome.browserAction.setIcon({path: F_19});
 				let url = 'https://demiart.ru/forum/index.php?act=ST&CODE=discuss&_='+(new Date()).getTime();
 				fetch(url).then(function(response){
+					/**
+					 * Если ответ в норме
+					 **/
 					response.json().then(function(json){
 						json.year = new Date(response.headers.get('date')).getFullYear();
 						OPTIONS.set('YEAR', json.year);
@@ -50,6 +63,9 @@
 						DDC = json.count;
 						sendMessages();
 					}).catch(function(){
+						/**
+						 * Если неудачный ответ
+						 **/
 						URL = URL_CONST;
 						DDC = 0;
 						chrome.browserAction.setIcon({path: I_19});
@@ -59,6 +75,9 @@
 					chrome.browserAction.setIcon({path: I_19});
 					responseInterval = setTimeout(FETCH, INTERVAL * 60000);
 				}).catch(function(){
+					/**
+					 * Если неудачный запрос
+					 **/
 					URL = URL_CONST;
 					DDC = 0;
 					chrome.browserAction.setIcon({path: I_19});
@@ -67,16 +86,28 @@
 					responseInterval = setTimeout(FETCH, INTERVAL * 60000);
 				});
 			}else{
+				/**
+				 * Если не задан INTERVAL и не подключен к Интернет 
+				 **/
 				let sec = INTERVAL ? INTERVAL : 0.1;
 				URL = URL_CONST;
 				DDC = 0;
 				chrome.browserAction.setIcon({path: I_19});
+				/** 
+				 * Если не подключен к интернет, то выведем сообщение Off
+				 * Если подключен, но не задан INTERVAL обнуляем сообщение
+				 **/
 				chrome.browserAction.setBadgeText({text: !winStatus ? 'Off' : ''});
 				sendMessages();
 				responseInterval = setTimeout(FETCH, sec * 60000);
 			}
 		},
 		GO_FORUM = function(){
+			/**
+			 * Обработка клика по иконке
+			 * Отправка сообщения всем табам форума
+			 * Если открытого таб нет, то создаём его
+			 **/
 			if(tabDDC!=undefined && TAB_CHECKBOX){
 				chrome.tabs.query({}, function(tabvs){
 					for(var i=0; i<tabvs.length; ++i){
@@ -95,13 +126,22 @@
 			}
 		},
 		tabCreate = function(tab){
+			/**
+			 * Таб создан, установим глобальную переменную tabDDC
+			 **/
 			tabDDC = tab;
 		},
 		executeMessages = function(id){
+			/**
+			 * Подключение наших скриптов к странице форума
+			 **/
 			chrome.tabs.insertCSS(id, {"file": "/css/messages.css"}, function(){});
 			chrome.tabs.executeScript(id, {"file": "/js/messages.js"}, function(){});
 		},
 		sendMessages = function(){
+			/**
+			 * Отправляем сообщение всем вкладкам форума
+			 **/
 			chrome.tabs.query({}, function(tabs) {
 				for(let i = 0; i < tabs.length; ++i){
 					let lt = tabs[i].id,
@@ -120,11 +160,17 @@
 					}
 				}
 			});
+			/** 
+			 * Обновляем контекстное меню
+			 **/
 			forumMenu && chrome.contextMenus.update(forumMenu, {
 			    title: DDC <= 0 ? chrome.i18n.getMessage('forum') : chrome.i18n.getMessage('comments').replace('*ddc*', DDC)
 			});
 		},
 		getFavicon = function(){
+			/**
+			 * Создание favicon форума
+			 **/
 			let c = String(DDC > 99 ? '+99' : DDC) + '';
 			favicon.clearRect(0, 0, 16, 16);
 			favicon.drawImage(image, 0, 0, 16, 16, 0, 0, 16, 16);
@@ -168,6 +214,9 @@
 			return favicon.canvas.toDataURL();
 		},
 		contextMenuShow = function(){
+			/**
+			 * Создание контекстного меню
+			 **/
 			ddcMenu = chrome.contextMenus.create({
 				"title": "Demiart DDC",
 				"contexts": ["all"]
@@ -308,27 +357,29 @@
 			
 		}
 	});
+
+	/**
+	 * Запускаем наше расширение на всех вкладках форума
+	 **/
 	chrome.tabs.query({}, function(tabs) {
 		for(let i = 0; i<tabs.length;++i){
 			let lt = tabs[i].id,
 				req = /(https?:\/\/demiart.ru\/forum\/(.+.php\?)?)/ig;
 			if(req.test(tabs[i].url)){
-				//executeDccScript(tabs[i].id);
 				executeMessages(tabs[i].id);
-				setTimeout(function(){
-					chrome.tabs.sendMessage(lt, {
-						idtab: lt,
-						url: URL,
-						def: URL_CONST,
-						ddc: DDC,
-						favicon: getFavicon(),
-						demicolor: DEMICOLOR_CHECKBOX,
-						message: 'ddc'
-					});
-				}, 100);
+				chrome.tabs.sendMessage(lt, {
+					idtab: lt,
+					url: URL,
+					def: URL_CONST,
+					ddc: DDC,
+					favicon: getFavicon(),
+					demicolor: DEMICOLOR_CHECKBOX,
+					message: 'ddc'
+				});
 			}
 		}
 	});
+
 	chrome.browserAction.setIcon({path: I_19});
 	chrome.browserAction.setBadgeBackgroundColor({color:'#d22d2d'});
 	window.addEventListener('online', ON_OFF);
@@ -338,7 +389,8 @@
 	AUDIO.crossOrigin="anonymous";
 	AUDIO.preload = "none";
 	AUDIO.src = chrome.runtime.getURL(SOUNDS);
-	FETCH();
 	contextMenuShow();
+	sendMessages();
+	FETCH();
 	console.log('%c Demiart DDC && DemiartColor Code ','background:#4C5D55;color:#e7aa11;font-size:40px;');
 }(chrome, document, window));

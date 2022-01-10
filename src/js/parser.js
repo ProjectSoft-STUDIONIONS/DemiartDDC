@@ -9,13 +9,14 @@ const DemiColor = function(){
 		'kwd': '#9E9',
 		'com': '#008',
 		'lit': '#FF0',
-		'pun': '#CCC',// не изменять. Это обычный текст.
-		'pln': '#CCC',// не изменять. Это обычный текст.
 		'tag': '#ADE',
 		'atn': '#ADE',
 		'atv': '#FF0',
-		'dec': '#CCC',// не изменять. Это обычный текст.
-		'typ': '#FA0'
+		'typ': '#FA0',
+		/** Удаляю **/
+		//'pun': '#CCC',// не изменять. Это обычный текст.
+		//'pln': '#CCC',// не изменять. Это обычный текст.
+		//'dec': '#CCC',// не изменять. Это обычный текст.
 	};
 	this.version = '3.0.0';
 	this.status = false;
@@ -200,26 +201,73 @@ DemiColor.prototype.parse = function(){
 	var self = this;
 	if(self.status && self.post && self.editor) {
 		let str = self.editor.doc.getValue()
+			/**
+			 * Замена пробелов сначало строки на пробелы без переносов
+			 **/
+			.replace(/^\s+/gm, function(e1, e2){
+				return e1.replace(/[ ]/gm, function(e3, e4){
+					return '\xA0';
+				})
+			})
+			/**
+			 * Замена табов на четыре пробела без переноса
+			 **/
 			.replace(/[\t]/g, "\xA0\xA0\xA0\xA0")
+			/**
+			 * Замена открывающей и закрывающей скобки
+			 **/
 			.replace(/[<>]/gmi, function (p){return (p == '<') ? '&lt;' : '&gt;'})
+			/**
+			 * Замена переноса сторк на br
+			 **/
 			.replace(/\n\r?/g, '<br>');
 		self.preview.innerHTML = self.result.innerHTML = '';
 		self.preview.innerHTML = str;
 		self.preview.classList.remove('prettyprinted');
+		/**
+		 * Запускаем prettyprint
+		 **/
 		prettyPrint();
-		str = self.preview.innerHTML.replace(/<span class="dec">?(.+?)<\/span>/gmi,function(g1, g2){return g2;})
+		str = self.preview.innerHTML
+			/**
+			 * Удаляем span обычного текста
+			 **/
+			.replace(/<span class="dec">?(.+?)<\/span>/gmi,function(g1, g2){return g2;})
 			.replace(/<span class="pln">?(.+?)<\/span>/gmi,function(g1, g2){return g2;})
 			.replace(/<span class="pun">?(.+?)<\/span>/gmi,function(g1, g2){return g2;})
-			.replace(/<span class="?(\w+)"?>/gmi, function (g1, g2){return "[color=" + self.schemes.default[g2] + "]"})
+			/**
+			 * Определяем цвет для bbcode
+			 **/
+			.replace(/<span class="?(\w+)"?>/gmi, function (g1, g2){
+				return "[color=" + self.schemes.default[g2] + "]"
+			})
+			/**
+			 * Удаляем закрывающий span
+			 **/
 			.replace(/<\/span>/gmi, "[/color]");
 		if(str.length){
+			/**
+			 * Если текст есть, то оборачиваем его в блок bbcode цитаты, где указывем язык программирования
+			 **/
 			str = "[quote=" + self.codeLang + "]" + str + "[/quote]";
 			self.result.innerHTML = str;
+			/**
+			 * Кнопка вставки доступна
+			 **/
 			self.insert.removeAttribute('disabled');
 		}else{
+			/**
+			 * Если текста нет - обнуляем
+			 **/
 			self.result.innerHTML = self.preview.innerHTML = '';
+			/**
+			 * Кнопка вставки не доступна
+			 **/
 			self.insert.setAttribute('disabled', 'disabled');
 		}
-		self.lenCount.textContent = str.length;
+		/**
+		 * Указываем длину текста
+		 **/
+		self.lenCount.textContent = self.result.innerText.length;
 	}
 }
