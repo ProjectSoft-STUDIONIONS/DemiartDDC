@@ -94,8 +94,8 @@
 				DDC = 0;
 				chrome.browserAction.setIcon({path: I_19});
 				/** 
-				 * Если не подключен к интернет, то выведем сообщение Off
-				 * Если подключен, но не задан INTERVAL обнуляем сообщение
+				 * Если не подключен к интернет, то выводим сообщение Off
+				 * Если подключен, но не задан INTERVAL обнуляем сообщения
 				 **/
 				chrome.browserAction.setBadgeText({text: !winStatus ? 'Off' : ''});
 				sendMessages();
@@ -208,7 +208,7 @@
 				favicon.fillStyle = '#ffffff';
 				favicon.textAlign = "right";
 				favicon.textBaseline = "top";
-				// unfortunately webkit/mozilla are a pixel different in text positioning
+				
 				favicon.fillText((c+''), pix === 2 ? 29 : 15, 6*  pix);
 			}
 			return favicon.canvas.toDataURL();
